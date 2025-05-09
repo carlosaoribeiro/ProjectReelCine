@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "397058037942",
+    "project_id": "reelcineproject",
+    "storage_bucket": "reelcineproject.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397058037942:android:e0a2c4170bc8bec880ee17",
+        "android_client_info": {
+          "package_name": "com.carlosribeiro.reelcineproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASVtdNL15rSQcfYmYTvCUPn8g038GG-Ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
