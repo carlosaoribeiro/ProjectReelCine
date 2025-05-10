@@ -2,77 +2,55 @@ package com.carlosribeiro.reelcineproject.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.carlosribeiro.reelcineproject.R
+import com.carlosribeiro.reelcineproject.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var emailEditText: EditText
-    private lateinit var passwordEditText: EditText
-    private lateinit var loginButton: Button
-    private lateinit var registerTextView: TextView
-    private lateinit var forgotPasswordTextView: TextView
-
+    private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // Inicializar o FirebaseAuth
+        // Inicializa o Firebase Auth
         auth = FirebaseAuth.getInstance()
 
-        // Encontrar os componentes da UI
-        emailEditText = findViewById(R.id.emailEditText)
-        passwordEditText = findViewById(R.id.passwordEditText)
-        loginButton = findViewById(R.id.loginButton)
-        registerTextView = findViewById(R.id.registerTextView)
-        forgotPasswordTextView = findViewById(R.id.forgotPasswordTextView)
-
-        // Ação do botão de login
-        loginButton.setOnClickListener {
+        // Botão de login
+        binding.btnEntrar.setOnClickListener {
             loginUser()
         }
 
-        // Ação do link para cadastro
-        registerTextView.setOnClickListener {
-            val intent = Intent(this, CadastroActivity::class.java)
-            startActivity(intent)
+        // Link para tela de cadastro
+        binding.textCadastrar.setOnClickListener {
+            startActivity(Intent(this, CadastroActivity::class.java))
         }
 
-        // Ação do link para esqueci minha senha
-        forgotPasswordTextView.setOnClickListener {
-            // Aqui você pode adicionar a lógica para recuperação de senha
+        // Link para esqueci minha senha
+        binding.textEsqueciSenha.setOnClickListener {
             Toast.makeText(this, "Função 'Esqueci minha senha' ainda não implementada", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Função para login com Firebase Authentication
     private fun loginUser() {
-        val email = emailEditText.text.toString()
-        val password = passwordEditText.text.toString()
+        val email = binding.editEmail.text.toString().trim()
+        val password = binding.editSenha.text.toString().trim()
 
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Por favor, preencha todos os campos.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Fazer login com o Firebase
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Se o login for bem-sucedido, redireciona para a tela principal
-                    val intent = Intent(this, FeedActivity::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, FeedActivity::class.java))
                     finish()
                 } else {
-                    // Se o login falhar, exibe uma mensagem de erro
                     Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
