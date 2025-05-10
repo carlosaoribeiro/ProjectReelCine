@@ -1,32 +1,31 @@
 package com.carlosribeiro.reelcineproject.ui
 
-import android.net.http.UrlRequest
 import android.os.Bundle
-import android.telecom.Call
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.carlosribeiro.reelcineproject.R
-import com.carlosribeiro.reelcineproject.adapter.FilmeAdapter
 import com.carlosribeiro.reelcineproject.api.RetrofitClient
+import com.carlosribeiro.reelcineproject.databinding.ActivityFeedBinding
 import com.carlosribeiro.reelcineproject.model.Filme
 import com.carlosribeiro.reelcineproject.model.FilmeResponse
-import com.google.android.gms.common.api.Response
-import kotlinx.android.synthetic.main.activity_feed.*
+import com.carlosribeiro.reelcineproject.ui.adapter.FilmeAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class FeedActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityFeedBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_feed)
+        binding = ActivityFeedBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val apiKey = "YOUR_TMDB_API_KEY" // Substitua pela sua chave da TMDB
+        val apiKey = "YOUR_TMDB_API_KEY"
 
         RetrofitClient.instance.getPopularMovies(apiKey)
-            .enqueue(object : UrlRequest.Callback<FilmeResponse> {
+            .enqueue(object : Callback<FilmeResponse> {
                 override fun onResponse(call: Call<FilmeResponse>, response: Response<FilmeResponse>) {
                     if (response.isSuccessful) {
                         val filmes = response.body()?.results ?: emptyList()
@@ -43,7 +42,7 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView(filmes: List<Filme>) {
-        filmesRecyclerView.layoutManager = LinearLayoutManager(this)
-        filmesRecyclerView.adapter = FilmeAdapter(filmes)
+        binding.filmesRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.filmesRecyclerView.adapter = FilmeAdapter(filmes)
     }
 }
