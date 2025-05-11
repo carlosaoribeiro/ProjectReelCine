@@ -14,14 +14,20 @@
         android:theme="@style/Theme.ReelCineProject"
         tools:targetApi="31" >
         <activity
-            android:name=".ui.LoginActivity"
-            android:exported="true" >
+            android:name="com.carlosribeiro.reelcineproject.ui.LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.carlosribeiro.reelcineproject.ui.CadastroActivity" />
+        <activity android:name="com.carlosribeiro.reelcineproject.ui.FeedActivity" />
+<!--        <activity android:name="com.carlosribeiro.reelcineproject.ui.FilmeDetailsActivity" />-->
+<!--        <activity android:name="com.carlosribeiro.reelcineproject.ui.RecomendarFilmeActivity" />-->
+
     </application>
 
 </manifest>

@@ -36,6 +36,16 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        val usuarioLogado = auth.currentUser
+        if (usuarioLogado != null) {
+            startActivity(Intent(this, FeedActivity::class.java))
+            finish()
+        }
+    }
+
     private fun loginUser() {
         val email = binding.editEmail.text.toString().trim()
         val password = binding.editSenha.text.toString().trim()
@@ -54,5 +64,6 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+
     }
 }
