@@ -14,4 +14,12 @@ interface TMDBService {
         @Query("language") language: String = "pt-BR",
         @Query("page") page: Int = 1
     ): Response<FilmeResponse>
+
+    // 🔍 Busca por nome (para RecomendarFilmeActivity)
+    @GET("search/movie")
+    suspend fun buscarFilmes(
+        @Query("query") query: String,
+        @Query("api_key") apiKey: String = "8fdc23c3632ca01c557a2aec34674d9f",
+        @Query("language") language: String = "pt-BR"
+    ): Response<FilmeResponse>
 }

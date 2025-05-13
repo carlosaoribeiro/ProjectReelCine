@@ -1,9 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Tema base do app -->
     <style name="Base.Theme.ReelCineProject" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Cores principais -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondary">@color/purple_700</item>
+
+        <!-- Estilo da Toolbar -->
+        <item name="toolbarStyle">@style/Widget.Toolbar.ReelCineProject</item>
     </style>
 
+    <!-- Tema principal -->
     <style name="Theme.ReelCineProject" parent="Base.Theme.ReelCineProject" />
+
+    <!-- Estilo customizado para Toolbar -->
+    <style name="Widget.Toolbar.ReelCineProject" parent="Widget.Material3.Toolbar">
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="android:background">@color/purple_500</item>
+        <item name="android:elevation">4dp</item>
+    </style>
 </resources>

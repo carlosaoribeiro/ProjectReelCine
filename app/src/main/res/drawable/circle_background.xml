@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"> <!-- oval cria um círculo perfeito quando width = height -->
+
+    <solid android:color="@color/purple_500" /> <!-- Cor de fundo -->
+
+    <!-- Opcional: borda -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/purple_700" />
+
+    <!-- Opcional: tamanho fixo (se necessário) -->
+    <size
+        android:width="100dp"
+        android:height="100dp" />
+</shape>

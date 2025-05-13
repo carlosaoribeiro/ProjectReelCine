@@ -1,0 +1,81 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0B132B">
+
+    <!-- Título -->
+
+    <!-- Campo de busca -->
+    <TextView
+        android:id="@+id/textTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="12dp"
+         android:layout_marginTop="40dp"
+        android:text="Crie sua recomendação!"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editBusca"
+        android:hint="Buscar filme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#AAAAAA" />
+
+    <!-- Botão Buscar -->
+    <Button
+        android:id="@+id/btnBuscar"
+        android:text="Buscar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="#E8EAEF"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_button_white" />
+
+    <!-- Filme selecionado -->
+    <TextView
+        android:id="@+id/textFilmeSelecionado"
+        android:text="Filme selecionado: nenhum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:paddingTop="8dp" />
+
+    <!-- Comentário -->
+    <EditText
+        android:id="@+id/editComentario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Seu comentário"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#AAAAAA"
+        android:backgroundTint="#FFFFFF" />
+
+    <!-- Botão Recomendar -->
+    <Button
+        android:id="@+id/btnSalvarRecomendacao"
+        android:text="Recomendar filme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="#EEEFF4"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_button_white" />
+
+    <!-- Lista de filmes -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFilmes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="12dp" />
+</LinearLayout>
