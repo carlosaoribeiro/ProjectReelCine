@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.carlosribeiro.reelcineproject.databinding.ActivityLoginBinding
+import com.carlosribeiro.reelcineproject.util.SessionManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
 
@@ -32,7 +34,11 @@ class LoginActivity : AppCompatActivity() {
 
         // Link para esqueci minha senha
         binding.textEsqueciSenha.setOnClickListener {
-            Toast.makeText(this, "Função 'Esqueci minha senha' ainda não implementada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Função 'Esqueci minha senha' ainda não implementada",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -41,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
 
         val usuarioLogado = auth.currentUser
         if (usuarioLogado != null) {
-            startActivity(Intent(this, FeedActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
     }
@@ -58,12 +64,33 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    startActivity(Intent(this, FeedActivity::class.java))
-                    finish()
+                    val userId = auth.currentUser?.uid
+                    if (userId != null) {
+                        FirebaseFirestore.getInstance()
+                            .collection("usuarios")
+                            .document(userId)
+                            .get()
+                            .addOnSuccessListener { document ->
+                                val nome = document.getString("nome") ?: "Usuário"
+                                val emailUser = auth.currentUser?.email ?: ""
+                                val uid = auth.currentUser?.uid ?: ""
+
+                                SessionManager(this).saveUser(nome, emailUser, uid)
+
+                                startActivity(Intent(this, MainActivity::class.java))
+                                finish()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Erro ao carregar perfil", Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 } else {
-                    Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Falha no login: ${task.exception?.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-
     }
 }

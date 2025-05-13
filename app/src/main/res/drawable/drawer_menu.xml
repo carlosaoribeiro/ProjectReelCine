@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_feed" android:title="Início" android:icon="@drawable/ic_home" />
+    <item android:id="@+id/nav_grupos" android:title="Grupos" android:icon="@drawable/ic_group" />
+    <item android:id="@+id/nav_recomendar" android:title="Recomendar Filme" android:icon="@drawable/ic_add" />
+    <item android:id="@+id/nav_perfil" android:title="Perfil" android:icon="@drawable/ic_person" />
+    <item android:id="@+id/nav_logout" android:title="Sair" android:icon="@drawable/ic_logout" />
+</menu>

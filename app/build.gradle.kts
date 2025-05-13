@@ -1,6 +1,7 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt") // 👈 direto aqui, sem alias
     id("com.google.gms.google-services")
 }
 
@@ -74,5 +75,27 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.activity.ktx) // ou versão recente
+
+    implementation(libs.google.firebase.auth.ktx)
+    implementation(libs.play.services.auth)
+
+
+    implementation(libs.circleimageview)
+
+    implementation(libs.androidx.drawerlayout)
+    implementation(libs.material.v1110)
+
+    implementation(libs.androidx.fragment.ktx) // Ou versão mais recente
+
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    kapt("com.github.bumptech.glide:compiler:4.16.0")
+
+    implementation (libs.androidx.cardview)
+
+    implementation (libs.material) // ou versão mais recente
+
+
+
 
 }

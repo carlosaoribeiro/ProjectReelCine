@@ -1,22 +1,42 @@
-package com.carlosribeiro.reelcineproject.ui.adapter
+package com.carlosribeiro.reelcineproject.ui.recomendacao
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.bumptech.glide.Glide
 import com.carlosribeiro.reelcineproject.databinding.ItemFilmeBinding
-import com.carlosribeiro.reelcineproject.model.Filme
+import com.carlosribeiro.reelcineproject.model.FilmeUi
 
 class FilmeAdapter(
-    private var filmes: List<Filme>
-) : RecyclerView.Adapter<FilmeAdapter.FilmeViewHolder>() {
+    private val onFilmeClick: (FilmeUi) -> Unit
+) : ListAdapter<FilmeUi, FilmeAdapter.FilmeViewHolder>(DIFF_CALLBACK) {
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FilmeUi>() {
+            override fun areItemsTheSame(oldItem: FilmeUi, newItem: FilmeUi) =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: FilmeUi, newItem: FilmeUi) =
+                oldItem == newItem
+        }
+    }
 
     inner class FilmeViewHolder(private val binding: ItemFilmeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(filme: Filme) {
-            binding.textTitulo.text = filme.title
-            // Se quiser carregar imagem com o Coil:
-            binding.imageFilme.load("https://image.tmdb.org/t/p/w500${filme.posterPath}")
+        fun bind(filme: FilmeUi) {
+            binding.textTitulo.text = filme.titulo
+            binding.textDescricao.text = filme.descricao
+            binding.textAno.text = filme.ano
+
+            Glide.with(binding.root.context)
+                .load(filme.imagemUrl)
+                .into(binding.imagePoster)
+
+            binding.root.setOnClickListener {
+                onFilmeClick(filme)
+            }
         }
     }
 
@@ -26,14 +46,6 @@ class FilmeAdapter(
     }
 
     override fun onBindViewHolder(holder: FilmeViewHolder, position: Int) {
-        holder.bind(filmes[position])
-    }
-
-    override fun getItemCount() = filmes.size
-
-    // ✅ Adicione este método
-    fun updateList(novosFilmes: List<Filme>) {
-        filmes = novosFilmes
-        notifyDataSetChanged()
+        holder.bind(getItem(position))
     }
 }

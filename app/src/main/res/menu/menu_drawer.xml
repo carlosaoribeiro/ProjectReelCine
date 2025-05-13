@@ -1,0 +1,6 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_feed" android:title="Feed" android:icon="@drawable/ic_feed" />
+    <item android:id="@+id/nav_grupos" android:title="Grupos" android:icon="@drawable/ic_group" />
+    <item android:id="@+id/nav_recomendacoes" android:title="Recomendar" android:icon="@drawable/ic_recommend" />
+    <item android:id="@+id/nav_logout" android:title="Sair" android:icon="@drawable/ic_logout" />
+</menu>
