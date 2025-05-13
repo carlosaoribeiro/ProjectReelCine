@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.carlosribeiro.reelcineproject.ui.FilmeDetailsActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.recomendacao.RecomendarFilmeActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.MainActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.CadastroActivity" />

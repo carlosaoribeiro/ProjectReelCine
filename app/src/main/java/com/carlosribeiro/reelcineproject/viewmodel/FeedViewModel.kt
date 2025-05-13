@@ -22,7 +22,7 @@ class FeedViewModel : ViewModel() {
         viewModelScope.launch {
             _loading.value = true
             try {
-                val response = RetrofitClient.instance.getPopularMovies()
+                val response = RetrofitClient.instance.buscarFilmesEmAlta()
                 if (response.isSuccessful) {
                     _filmes.value = response.body()?.results ?: emptyList()
                 } else {
