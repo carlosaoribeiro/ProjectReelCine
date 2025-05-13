@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#0B132B"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Botão de Voltar -->
+    <TextView
+        android:id="@+id/btnVoltar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="← Voltar"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Imagem do Filme -->
+    <ImageView
+        android:id="@+id/imagePoster"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/textTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Título do Filme"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Ano -->
+    <TextView
+        android:id="@+id/textAno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ano: 2025"
+        android:textColor="#AAAAAA"
+        android:textSize="14sp"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Descrição -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/textDescricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descrição longa do filme..."
+            android:textColor="#CCCCCC"
+            android:textSize="16sp"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="16dp" />
+    </ScrollView>
+</LinearLayout>

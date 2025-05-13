@@ -1,60 +1,116 @@
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Conteúdo principal -->
-    <LinearLayout
+    <!-- Main Content -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#0B132B">
+        android:background="#0B132B"
+        android:padding="16dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="122dp"
-            android:background="#0B132B"
-            android:fitsSystemWindows="true"
-            android:paddingTop="24dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-        <!-- Conteúdo inicial -->
-        <TextView
-            android:id="@+id/textBoasVindas"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bem-vindo ao ReelCine!"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="40dp"
-            android:layout_gravity="center_horizontal" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnAbrirRecomendacoes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ver Recomendações"
-            android:textColor="#0B132B"
-            android:backgroundTint="@android:color/white"
-            android:layout_marginTop="24dp"
-            android:layout_gravity="center_horizontal"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:background="@drawable/botao_arredondado" />
-    </LinearLayout>
+            <!-- App Title -->
+            <TextView
+                android:id="@+id/textAppTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎬 ReelCine"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
 
-    <!-- Menu lateral -->
+            <!-- Trending Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔥 Em Alta Hoje"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewTrending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:scrollbars="horizontal"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Novidades Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎬 Novidades"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewNovidades"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:scrollbars="horizontal"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Lançamentos Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📅 Lançamentos da Semana"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewLancamentos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:scrollbars="horizontal"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Top Avaliados Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⭐ Top Avaliados"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewTopAvaliados"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:scrollbars="horizontal"
+                android:layout_marginBottom="32dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Navigation View -->
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navView"
+        android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/menu_drawer"
-        app:headerLayout="@layout/nav_header"/>
+        android:background="#0B132B"
+        app:itemTextColor="@android:color/white"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/menu_drawer" />
+
 </androidx.drawerlayout.widget.DrawerLayout>
