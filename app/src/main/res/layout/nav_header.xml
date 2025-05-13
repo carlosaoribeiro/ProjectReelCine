@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="200dp"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="#0B132B"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:background="@color/colorPrimary"
+    android:gravity="bottom"
     android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/imageViewAvatar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_avatar_placeholder"
-        android:background="@drawable/circle_background"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/avatar" />
-
     <TextView
-        android:id="@+id/textViewUserName"
+        android:id="@+id/textHeaderTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Usuário"
-        android:textSize="18sp"
+        android:text="🎬 ReelCine"
         android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp" />
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textHeaderSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descubra e compartilhe filmes"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+
 </LinearLayout>

@@ -4,22 +4,67 @@ import MainViewModel
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.carlosribeiro.reelcineproject.R
 import com.carlosribeiro.reelcineproject.databinding.ActivityMainBinding
 import com.carlosribeiro.reelcineproject.model.FilmeUi
+import com.carlosribeiro.reelcineproject.ui.feed.FeedActivity
+import com.carlosribeiro.reelcineproject.ui.grupos.GruposActivity
 import com.carlosribeiro.reelcineproject.ui.main.FilmeHorizontalAdapter
-import com.carlosribeiro.reelcineproject.ui.FilmeDetailsActivity
+import com.carlosribeiro.reelcineproject.ui.recomendacao.RecomendarFilmeActivity
+import kotlin.jvm.java
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
+    private lateinit var drawerToggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Configura a Toolbar
+        setSupportActionBar(binding.toolbar)
+
+        // Habilita o ícone de menu (hambúrguer)
+        drawerToggle = ActionBarDrawerToggle(
+            this,
+            binding.drawerLayout,
+            binding.toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        binding.drawerLayout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+
+        // Listener do menu lateral
+        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_feed -> {
+                    startActivity(Intent(this, FeedActivity::class.java))
+                    true
+                }
+                R.id.nav_grupos -> {
+                    startActivity(Intent(this, GruposActivity::class.java))
+                    true
+                }
+                R.id.nav_recomendacoes -> {
+                    startActivity(Intent(this, RecomendarFilmeActivity::class.java))
+                    true
+                }
+                R.id.nav_logout -> {
+                    finishAffinity() // ou FirebaseAuth.getInstance().signOut()
+                    true
+                }
+                else -> false
+            }.also {
+                binding.drawerLayout.closeDrawers()
+            }
+        }
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
@@ -63,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             binding.recyclerViewTopAvaliados.adapter = adapter
         }
 
-        // Chamada das funções do ViewModel
+        // Carrega os dados
         viewModel.carregarFilmesTrending()
         viewModel.carregarFilmesNovidades()
         viewModel.carregarFilmesLancamentos()
