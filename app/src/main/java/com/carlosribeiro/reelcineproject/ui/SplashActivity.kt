@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
-    private val splashDelay = 5000L // 5 segundos
+    private val splashDelay = 2000L // 2 segundos
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

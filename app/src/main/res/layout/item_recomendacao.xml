@@ -14,20 +14,24 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
+        <!-- Poster do filme -->
         <ImageView
             android:id="@+id/imagePoster"
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
             android:layout_marginEnd="12dp"
+            android:contentDescription="Poster do filme"
             android:background="@drawable/image_placeholder" />
 
+        <!-- Conteúdo ao lado do poster -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <!-- Título -->
             <TextView
                 android:id="@+id/textTitulo"
                 android:layout_width="wrap_content"
@@ -39,6 +43,7 @@
                 android:ellipsize="end"
                 android:layout_marginBottom="4dp" />
 
+            <!-- Comentário -->
             <TextView
                 android:id="@+id/textComentario"
                 android:layout_width="wrap_content"
@@ -47,16 +52,35 @@
                 android:textColor="#CCCCCC"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:layout_marginBottom="6dp" />
+                android:layout_marginBottom="8dp" />
 
-            <TextView
-                android:id="@+id/textAutor"
+            <!-- Linha com avatar + autor -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="#AAAAAA"
-                android:layout_marginBottom="2dp" />
+                android:orientation="horizontal"
+                android:layout_marginBottom="4dp"
+                android:gravity="center_vertical">
 
+                <ImageView
+                    android:id="@+id/imageAvatar"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/avatar_placeholder"
+                    android:background="@drawable/avatar_background_circle"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/textAutor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textColor="#AAAAAA"
+                    android:text="Postado por: Fulano" />
+            </LinearLayout>
+
+            <!-- Data -->
             <TextView
                 android:id="@+id/textData"
                 android:layout_width="wrap_content"
@@ -67,5 +91,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

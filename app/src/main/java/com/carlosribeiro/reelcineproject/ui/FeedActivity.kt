@@ -83,11 +83,11 @@ class FeedActivity : AppCompatActivity() {
             adapter.submitList(lista)
         }
 
-        viewModel.buscarTodasRecomendacoes()
+        viewModel.observarRecomendacoesEmTempoReal()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.buscarTodasRecomendacoes()
+        viewModel.observarRecomendacoesEmTempoReal()
     }
 }

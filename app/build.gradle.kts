@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor.v4120)
+    implementation(libs.firebase.storage.ktx)
 
     // Testes
     testImplementation(libs.junit)

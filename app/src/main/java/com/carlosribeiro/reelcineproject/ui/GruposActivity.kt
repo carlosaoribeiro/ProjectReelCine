@@ -8,7 +8,6 @@ import com.carlosribeiro.reelcineproject.R
 import com.carlosribeiro.reelcineproject.databinding.ActivityGruposBinding
 import com.carlosribeiro.reelcineproject.ui.feed.FeedActivity
 import com.carlosribeiro.reelcineproject.ui.recomendacao.RecomendarFilmeActivity
-import kotlin.jvm.java
 
 class GruposActivity : AppCompatActivity() {
 
@@ -37,32 +36,37 @@ class GruposActivity : AppCompatActivity() {
         // Menu lateral
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.nav_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }
+
                 R.id.nav_feed -> {
                     startActivity(Intent(this, FeedActivity::class.java))
                     finish()
-                    true
                 }
 
                 R.id.nav_grupos -> {
                     // Já está na tela de grupos
-                    binding.drawerLayout.closeDrawers()
-                    true
                 }
 
                 R.id.nav_recomendacoes -> {
                     startActivity(Intent(this, RecomendarFilmeActivity::class.java))
                     finish()
-                    true
+                }
+
+                R.id.nav_perfil -> {
+                    startActivity(Intent(this, PerfilActivity::class.java))
+                    finish()
                 }
 
                 R.id.nav_logout -> {
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
-                    true
                 }
-
-                else -> false
             }
+            binding.drawerLayout.closeDrawers()
+            true
         }
     }
 }

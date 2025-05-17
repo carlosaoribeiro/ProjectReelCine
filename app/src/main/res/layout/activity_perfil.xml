@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#0B132B"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Avatar -->
+        <ImageView
+            android:id="@+id/imageAvatar"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/avatar_placeholder"
+            android:scaleType="centerCrop"
+            android:background="@drawable/avatar_background_circle"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Toque para mudar a foto"
+            android:textColor="#AAAAAA"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Nome -->
+        <EditText
+            android:id="@+id/editNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nome"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAAAAA"
+            android:backgroundTint="#FFFFFF"
+            android:inputType="textPersonName"
+            android:layout_marginTop="32dp" />
+
+        <!-- Email -->
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAAAAA"
+            android:backgroundTint="#FFFFFF"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="16dp" />
+
+        <!-- Botão salvar -->
+        <Button
+            android:id="@+id/btnSalvar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salvar"
+            android:textColor="#0B132B"
+            android:backgroundTint="#FFFFFF"
+            android:layout_marginTop="32dp" />
+
+    </LinearLayout>
+</ScrollView>

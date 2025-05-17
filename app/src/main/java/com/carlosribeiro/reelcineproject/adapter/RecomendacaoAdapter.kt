@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.carlosribeiro.reelcineproject.R
 import com.carlosribeiro.reelcineproject.databinding.ItemRecomendacaoBinding
 import com.carlosribeiro.reelcineproject.model.Recomendacao
 import java.text.SimpleDateFormat
@@ -31,20 +32,34 @@ class RecomendacaoAdapter : ListAdapter<Recomendacao, RecomendacaoAdapter.ViewHo
 
         fun bind(recomendacao: Recomendacao) {
             try {
+                // Título, comentário e nome do autor
                 binding.textTitulo.text = recomendacao.titulo
                 binding.textComentario.text = recomendacao.comentario
-                binding.textAutor.text = recomendacao.usuarioNome
+                binding.textAutor.text = "Postado por: ${recomendacao.usuarioNome}"
 
-                // ✅ Corrigido: usa a string formatada
+                // Formatar data
                 val dataFormatada = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val dataTexto = dataFormatada.format(Date(recomendacao.timestamp))
                 binding.textData.text = dataTexto
 
-                // ✅ Glide para carregar imagem
+                // Imagem do filme
                 Glide.with(binding.root.context)
                     .load(recomendacao.posterPath)
                     .placeholder(android.R.color.darker_gray)
                     .into(binding.imagePoster)
+
+                // ✅ Avatar com fallback se URL estiver vazia ou inválida
+                Glide.with(binding.root.context)
+                    .load(
+                        if (recomendacao.avatarUrl.isNullOrBlank())
+                            R.drawable.avatar_placeholder
+                        else
+                            recomendacao.avatarUrl
+                    )
+                    .placeholder(R.drawable.avatar_placeholder)
+                    .error(R.drawable.avatar_placeholder)
+                    .circleCrop()
+                    .into(binding.imageAvatar)
 
             } catch (e: Exception) {
                 Log.e("AdapterErro", "Erro ao bindar item: ${e.message}", e)
@@ -61,5 +76,3 @@ class RecomendacaoAdapter : ListAdapter<Recomendacao, RecomendacaoAdapter.ViewHo
         holder.bind(getItem(position))
     }
 }
-
-
