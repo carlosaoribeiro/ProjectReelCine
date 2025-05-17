@@ -94,4 +94,8 @@ dependencies {
     // Glide
     implementation(libs.glide)
     kapt(libs.compiler)
+
+    //Animation
+    implementation (libs.lottie)
+
 }

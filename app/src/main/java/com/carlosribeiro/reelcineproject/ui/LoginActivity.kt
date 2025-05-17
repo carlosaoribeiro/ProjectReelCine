@@ -28,12 +28,12 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // Link para tela de cadastro
-        binding.textCadastrar.setOnClickListener {
+        binding.linkCadastro.setOnClickListener {
             startActivity(Intent(this, CadastroActivity::class.java))
         }
 
         // Link para esqueci minha senha
-        binding.textEsqueciSenha.setOnClickListener {
+        binding.linkEsqueciSenha.setOnClickListener {
             Toast.makeText(
                 this,
                 "Função 'Esqueci minha senha' ainda não implementada",
