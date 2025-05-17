@@ -19,6 +19,24 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.textEsqueciSenha.setOnClickListener {
+            val email = binding.editEmail.text.toString().trim()
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Password reset email sent", Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
+        }
+
+
         // Inicializa o Firebase Auth
         auth = FirebaseAuth.getInstance()
 
@@ -33,14 +51,22 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // Link para esqueci minha senha
-        binding.linkEsqueciSenha.setOnClickListener {
+        binding.textEsqueciSenha.setOnClickListener {
             Toast.makeText(
                 this,
                 "Função 'Esqueci minha senha' ainda não implementada",
                 Toast.LENGTH_SHORT
             ).show()
         }
+        binding.textEsqueciSenha.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        }
+
+
+
     }
+
+
 
     override fun onStart() {
         super.onStart()

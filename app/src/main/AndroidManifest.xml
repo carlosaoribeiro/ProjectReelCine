@@ -33,6 +33,9 @@
         <activity android:name="com.carlosribeiro.reelcineproject.ui.GruposActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.feed.FeedActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.LoginActivity" />
+        <activity android:name=".ui.ForgotPasswordActivity" />
+
+
     </application>
 
 </manifest>
