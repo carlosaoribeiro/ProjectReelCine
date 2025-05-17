@@ -1,14 +1,15 @@
-package com.carlosribeiro.reelcineproject.model.mapper
+package com.carlosribeiro.reelcineproject.model
 
-import com.carlosribeiro.reelcineproject.model.Filme
 import com.carlosribeiro.reelcineproject.model.FilmeUi
+import com.carlosribeiro.reelcineproject.network.response.FilmeDto
 
-fun Filme.toUiModel(): FilmeUi {
+fun FilmeDto.toUiModel(): FilmeUi {
     return FilmeUi(
         id = this.id,
         titulo = this.title,
-        descricao = this.overview,
-        imagemUrl = "https://image.tmdb.org/t/p/w500${this.posterPath}",
-        ano = this.releaseDate.take(4)
+        descricao = this.overview ?: "",
+        posterPath = this.poster_path ?: "",
+        backdropPath = this.backdrop_path ?: "",
+        ano = this.release_date?.take(4) ?: ""
     )
 }

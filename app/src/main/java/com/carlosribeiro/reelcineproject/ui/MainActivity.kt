@@ -1,6 +1,6 @@
 package com.carlosribeiro.reelcineproject.ui
 
-import MainViewModel
+import com.carlosribeiro.reelcineproject.viewmodel.MainViewModel
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +11,7 @@ import com.carlosribeiro.reelcineproject.R
 import com.carlosribeiro.reelcineproject.databinding.ActivityMainBinding
 import com.carlosribeiro.reelcineproject.model.FilmeUi
 import com.carlosribeiro.reelcineproject.ui.feed.FeedActivity
-import com.carlosribeiro.reelcineproject.ui.grupos.GruposActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.carlosribeiro.reelcineproject.ui.main.FilmeHorizontalAdapter
 import com.carlosribeiro.reelcineproject.ui.recomendacao.RecomendarFilmeActivity
 import kotlin.jvm.java
@@ -44,6 +44,14 @@ class MainActivity : AppCompatActivity() {
         // Listener do menu lateral
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.nav_home -> {
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    }
+                    startActivity(intent)
+                    true
+                }
+
                 R.id.nav_feed -> {
                     startActivity(Intent(this, FeedActivity::class.java))
                     true
@@ -57,7 +65,9 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_logout -> {
-                    finishAffinity() // ou FirebaseAuth.getInstance().signOut()
+                    FirebaseAuth.getInstance().signOut() // <-- Faz logout real
+                    startActivity(Intent(this, LoginActivity::class.java)) // redireciona para tela de login
+                    finishAffinity() // encerra tudo
                     true
                 }
                 else -> false
@@ -119,7 +129,8 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, FilmeDetailsActivity::class.java).apply {
             putExtra("titulo", filme.titulo)
             putExtra("descricao", filme.descricao)
-            putExtra("posterPath", filme.imagemUrl)
+            putExtra("posterPath", filme.posterPath)
+            putExtra("backdropPath", filme.backdropPath)
             putExtra("ano", filme.ano)
         }
         startActivity(intent)

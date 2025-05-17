@@ -10,6 +10,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.Query
 
 
 class RecomendacoesViewModel : ViewModel() {
@@ -18,42 +20,43 @@ class RecomendacoesViewModel : ViewModel() {
     val recomendacoes: LiveData<List<Recomendacao>> = _recomendacoes
 
     fun buscarTodasRecomendacoes() {
-        viewModelScope.launch {
-            val lista = mutableListOf<Recomendacao>()
-            val db = FirebaseFirestore.getInstance()
-            val usuariosSnapshot = db.collection("usuarios").get().await()
-            Log.d("ViewModel", "Usuários encontrados: ${usuariosSnapshot.size()}")
+        Log.d("RecomendacoesVM", "Iniciando busca por recomendações...")
 
+        val user = FirebaseAuth.getInstance().currentUser
+        Log.d("RecomendacoesVM", "UID atual: ${user?.uid}")
 
-            for (usuario in usuariosSnapshot) {
-                val nome = usuario.getString("nome") ?: "Anônimo"
-                val recomendacoesSnapshot = db.collection("usuarios")
-                    .document(usuario.id)
-                    .collection("recomendacoes")
-                    .get()
-                    .await()
-
-                Log.d("ViewModel", "Verificando usuário: ${usuario.id}")
-
-                for (recomendacaoDoc in recomendacoesSnapshot) {
-                    val data = recomendacaoDoc.data
-                    val recomendacao = Recomendacao(
-                        titulo = data["titulo"] as? String ?: "",
-                        comentario = data["comentario"] as? String ?: "",
-                        posterPath = data["posterPath"] as? String ?: "",
-                        avatarUrl = data["avatarUrl"] as? String ?: "",
-                        autor = nome,
-                        usuarioNome = nome,
-                        timestamp = (data["timestamp"] as? Timestamp)?.toDate()?.time ?: 0L // ✅ Aqui
-                    )
-                    lista.add(recomendacao)
-                }
-            }
-
-            // ✅ Ordenar por timestamp decrescente (mais recentes primeiro)
-            _recomendacoes.value = lista.sortedByDescending { it.timestamp }
-
-            Log.d("ViewModel", "Total recomendacoes: ${lista.size}")
+        val uid = user?.uid
+        if (uid == null) {
+            Log.e("RecomendacoesVM", "UID do usuário é nulo.")
+            return
         }
+
+        FirebaseFirestore.getInstance()
+            .collection("usuarios")
+            .document(uid)
+            .collection("recomendacoes")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { result ->
+                Log.d("RecomendacoesVM", "Recomendações carregadas: ${result.size()}")
+                val lista = result.mapNotNull { doc ->
+                    try {
+                        doc.toObject(Recomendacao::class.java)
+                    } catch (e: Exception) {
+                        Log.e("RecomendacoesVM", "Erro ao converter documento: ${e.message}")
+                        null
+                    }
+                }
+                _recomendacoes.value = lista
+            }
+            .addOnFailureListener { e ->
+                Log.e("RecomendacoesVM", "Erro ao buscar recomendações: ${e.message}")
+            }
     }
+
 }
+
+
+
+
+

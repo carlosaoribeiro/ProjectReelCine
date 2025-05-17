@@ -17,20 +17,19 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:paddingTop="8dp"
+            android:paddingTop="30dp"
             android:background="#0B132B"
             android:elevation="4dp"
             app:titleTextColor="#FFFFFF"
-            app:title="Recomendações da comunidade" />
+            app:title="Feed de Recomendaçoes" />
 
         <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:padding="16dp"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"/>
 
         <!-- Botão Flutuante -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton

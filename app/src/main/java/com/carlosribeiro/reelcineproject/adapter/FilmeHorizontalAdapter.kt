@@ -14,19 +14,25 @@ class FilmeHorizontalAdapter(
 
     inner class FilmeViewHolder(val binding: ItemFilmeHorizontalBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(filme: FilmeUi) {
             binding.textTitulo.text = filme.titulo
+
             Glide.with(binding.root.context)
-                .load("https://image.tmdb.org/t/p/w500${filme.imagemUrl}")
+                .load("https://image.tmdb.org/t/p/w500${filme.posterPath}")
                 .into(binding.imagePoster)
 
-            binding.root.setOnClickListener { onClick(filme) }
+            binding.root.setOnClickListener {
+                onClick(filme)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmeViewHolder {
         val binding = ItemFilmeHorizontalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
         return FilmeViewHolder(binding)
     }
@@ -35,5 +41,5 @@ class FilmeHorizontalAdapter(
         holder.bind(filmes[position])
     }
 
-    override fun getItemCount() = filmes.size
+    override fun getItemCount(): Int = filmes.size
 }

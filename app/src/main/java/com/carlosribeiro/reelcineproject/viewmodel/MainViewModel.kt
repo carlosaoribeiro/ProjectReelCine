@@ -1,7 +1,9 @@
+package com.carlosribeiro.reelcineproject.viewmodel
+
 import androidx.lifecycle.*
 import com.carlosribeiro.reelcineproject.api.RetrofitInstance
 import com.carlosribeiro.reelcineproject.model.FilmeUi
-import com.carlosribeiro.reelcineproject.model.mapper.toUiModel
+import com.carlosribeiro.reelcineproject.model.toUiModel
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
@@ -22,10 +24,11 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = RetrofitInstance.api.buscarFilmesEmAlta()
-                if (response.isSuccessful) {
-                    _filmesTrending.value = response.body()?.results?.map { it.toUiModel() }
-                }
-            } catch (_: Exception) {}
+                _filmesTrending.value = response.results.map { it.toUiModel() }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _filmesTrending.value = emptyList()
+            }
         }
     }
 
@@ -33,10 +36,11 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = RetrofitInstance.api.buscarFilmesRecentes()
-                if (response.isSuccessful) {
-                    _filmesNovidades.value = response.body()?.results?.map { it.toUiModel() }
-                }
-            } catch (_: Exception) {}
+                _filmesNovidades.value = response.results.map { it.toUiModel() }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _filmesNovidades.value = emptyList()
+            }
         }
     }
 
@@ -44,10 +48,11 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = RetrofitInstance.api.buscarFilmesLancamentos()
-                if (response.isSuccessful) {
-                    _filmesLancamentos.value = response.body()?.results?.map { it.toUiModel() }
-                }
-            } catch (_: Exception) {}
+                _filmesLancamentos.value = response.results.map { it.toUiModel() }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _filmesLancamentos.value = emptyList()
+            }
         }
     }
 
@@ -55,10 +60,11 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = RetrofitInstance.api.buscarFilmesTopAvaliados()
-                if (response.isSuccessful) {
-                    _filmesTopAvaliados.value = response.body()?.results?.map { it.toUiModel() }
-                }
-            } catch (_: Exception) {}
+                _filmesTopAvaliados.value = response.results.map { it.toUiModel() }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _filmesTopAvaliados.value = emptyList()
+            }
         }
     }
 }

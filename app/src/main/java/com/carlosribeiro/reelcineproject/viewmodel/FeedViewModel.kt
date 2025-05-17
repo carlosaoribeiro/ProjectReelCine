@@ -1,38 +1,53 @@
 package com.carlosribeiro.reelcineproject.viewmodel
 
-import androidx.lifecycle.*
-import com.carlosribeiro.reelcineproject.api.RetrofitClient
-import com.carlosribeiro.reelcineproject.model.Filme
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.carlosribeiro.reelcineproject.model.Recomendacao
-import com.carlosribeiro.reelcineproject.repository.RecomendacaoRepository
-import kotlinx.coroutines.launch
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.Timestamp
+import kotlin.collections.mapNotNull
 
 class FeedViewModel : ViewModel() {
 
-    private val _filmes = MutableLiveData<List<Filme>>()
-    val filmes: LiveData<List<Filme>> = _filmes
+    private val _recomendacoes = MutableLiveData<List<Recomendacao>>()
+    val recomendacoes: LiveData<List<Recomendacao>> = _recomendacoes
 
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String> = _error
+    private val db = FirebaseFirestore.getInstance()
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> = _loading
+    fun buscarTodasRecomendacoes() {
+        Log.d("FeedViewModel", "🔍 Iniciando busca no Firestore...")
 
-    fun fetchMovies() {
-        viewModelScope.launch {
-            _loading.value = true
-            try {
-                val response = RetrofitClient.instance.buscarFilmesEmAlta()
-                if (response.isSuccessful) {
-                    _filmes.value = response.body()?.results ?: emptyList()
-                } else {
-                    _error.value = "Erro API: ${response.code()}"
+        db.collectionGroup("recomendacoes")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { result ->
+                val lista = result.documents.mapNotNull { doc ->
+                    val data = doc.data ?: return@mapNotNull null
+
+                    val titulo = data["titulo"] as? String ?: ""
+                    val comentario = data["comentario"] as? String ?: ""
+                    val posterPath = data["posterPath"] as? String ?: ""
+
+                    val timestamp = when (val ts = data["timestamp"]) {
+                        is Timestamp -> ts.toDate().time
+                        is Long -> ts
+                        else -> 0L
+                    }
+
+                    Log.d("FeedViewModel", "→ Documento: ${doc.id}, data: $data")
+
+                    Recomendacao(titulo, comentario, posterPath, "", "", "", timestamp)
                 }
-            } catch (e: Exception) {
-                _error.value = "Erro: ${e.message}"
-            } finally {
-                _loading.value = false
+
+                _recomendacoes.value = lista
+                Log.d("FeedViewModel", "✅ Busca completa. Documentos: ${lista.size}")
             }
-        }
+            .addOnFailureListener { e ->
+                Log.e("FeedViewModel", "❌ Erro ao buscar recomendações: ${e.message}", e)
+            }
     }
+
 }
