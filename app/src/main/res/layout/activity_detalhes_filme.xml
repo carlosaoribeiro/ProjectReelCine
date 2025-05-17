@@ -1,74 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0B132B"
     android:padding="16dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <!-- Card com imagem do pôster -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+        <!-- Botão Voltar -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnVoltar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@android:color/white"
+            android:contentDescription="Voltar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:backgroundTint="#0B132B"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Capa do filme -->
+        <ImageView
+            android:id="@+id/imageCapa"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/btnVoltar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Poster -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPoster"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            app:cardCornerRadius="12dp"
             app:cardElevation="6dp"
-            app:cardUseCompatPadding="true">
+            app:layout_constraintTop_toBottomOf="@id/imageCapa"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="-75dp">
 
             <ImageView
                 android:id="@+id/imagePosterDetalhes"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:contentDescription="Pôster do filme" />
-        </androidx.cardview.widget.CardView>
+                android:contentDescription="Poster" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Título do filme -->
+        <!-- Título -->
         <TextView
-            android:id="@+id/textTituloDetalhes"
-            android:layout_width="match_parent"
+            android:id="@+id/textTituloFilme"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="#C71111"
-            android:textSize="20sp"
+            android:text="A Minecraft Movie"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            app:layout_constraintTop_toBottomOf="@id/cardPoster"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
 
-        <!-- Descrição do filme -->
+        <!-- Diretor -->
         <TextView
-            android:id="@+id/textDescricaoDetalhes"
-            android:layout_width="match_parent"
+            android:id="@+id/textDiretor"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Directed by John Doe"
             android:textColor="#CCCCCC"
-            android:textSize="16sp"
-            android:justificationMode="inter_word"
-            android:lineSpacingExtra="6dp"
-            android:layout_marginBottom="24dp" />
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/textTituloFilme"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="4dp" />
 
+        <!-- Ano e duração -->
         <TextView
-            android:id="@+id/textAnoDetalhes"
-            android:layout_width="match_parent"
+            android:id="@+id/textAnoDuracao"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#CCCCCC"
-            android:textSize="16sp"
-            android:justificationMode="inter_word"
-            android:lineSpacingExtra="6dp"
-            android:layout_marginBottom="24dp" />
+            android:text="2025  •  110 mins"
+            android:textColor="#AAAAAA"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/textDiretor"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="4dp" />
 
-        <!-- Botão Voltar -->
-        <Button
-            android:id="@+id/btnVoltarHome"
-            android:layout_width="match_parent"
+        <!-- Botão Trailer -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTrailer"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Voltar para Home"
-            android:textAllCaps="false"
-            android:textColor="#0B132B"
-            android:backgroundTint="#FFFFFF"
-            android:padding="12dp"
-            android:textStyle="bold" />
-    </LinearLayout>
-</ScrollView>
+            android:text="▶ Trailer"
+            app:strokeColor="@android:color/white"
+            app:strokeWidth="1dp"
+            app:cornerRadius="20dp"
+            android:textColor="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@id/textAnoDuracao"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Frase de impacto -->
+        <TextView
+            android:id="@+id/textFraseImpacto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="BUILD. EXPLORE. SURVIVE."
+            android:textColor="#AAAAAA"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/btnTrailer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Descrição -->
+        <TextView
+            android:id="@+id/textDescricao"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="..."
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="32dp"
+            android:justificationMode="inter_word"
+            android:lineSpacingExtra="4dp"
+            app:layout_constraintTop_toBottomOf="@id/textFraseImpacto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

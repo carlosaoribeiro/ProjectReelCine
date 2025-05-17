@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ReelCineProject</string>
+    <string name="app_name">ReelCine</string>
     <string name="avatar">Avatar do usuário</string>
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="navigation_drawer_close">Fechar menu</string>

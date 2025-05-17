@@ -16,29 +16,36 @@ class RecomendacaoAdapter : ListAdapter<Recomendacao, RecomendacaoAdapter.ViewHo
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Recomendacao>() {
-            override fun areItemsTheSame(oldItem: Recomendacao, newItem: Recomendacao) =
-                oldItem.titulo == newItem.titulo && oldItem.usuarioNome == newItem.usuarioNome
+            override fun areItemsTheSame(oldItem: Recomendacao, newItem: Recomendacao): Boolean {
+                return oldItem.titulo == newItem.titulo && oldItem.usuarioNome == newItem.usuarioNome
+            }
 
-            override fun areContentsTheSame(oldItem: Recomendacao, newItem: Recomendacao) =
-                oldItem == newItem
+            override fun areContentsTheSame(oldItem: Recomendacao, newItem: Recomendacao): Boolean {
+                return oldItem == newItem
+            }
         }
     }
 
     inner class ViewHolder(private val binding: ItemRecomendacaoBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(recomendacao: Recomendacao) {
             try {
                 binding.textTitulo.text = recomendacao.titulo
                 binding.textComentario.text = recomendacao.comentario
                 binding.textAutor.text = recomendacao.usuarioNome
 
-                val dataFormatada = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-                    .format(Date(recomendacao.timestamp))
-                binding.textData.text = dataFormatada
+                // ✅ Corrigido: usa a string formatada
+                val dataFormatada = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val dataTexto = dataFormatada.format(Date(recomendacao.timestamp))
+                binding.textData.text = dataTexto
 
+                // ✅ Glide para carregar imagem
                 Glide.with(binding.root.context)
                     .load(recomendacao.posterPath)
+                    .placeholder(android.R.color.darker_gray)
                     .into(binding.imagePoster)
+
             } catch (e: Exception) {
                 Log.e("AdapterErro", "Erro ao bindar item: ${e.message}", e)
             }
@@ -54,3 +61,5 @@ class RecomendacaoAdapter : ListAdapter<Recomendacao, RecomendacaoAdapter.ViewHo
         holder.bind(getItem(position))
     }
 }
+
+

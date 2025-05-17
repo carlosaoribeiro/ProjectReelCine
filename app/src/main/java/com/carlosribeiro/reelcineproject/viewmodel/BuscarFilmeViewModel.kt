@@ -1,36 +1,29 @@
 package com.carlosribeiro.reelcineproject.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.carlosribeiro.reelcineproject.api.RetrofitInstance
-import com.carlosribeiro.reelcineproject.model.FilmeResponse
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.carlosribeiro.reelcineproject.model.FilmeUi
-import com.carlosribeiro.reelcineproject.model.mapper.toUiModel
+import com.carlosribeiro.reelcineproject.model.toUiModel
+import com.carlosribeiro.reelcineproject.network.response.FilmeResponse
+import com.carlosribeiro.reelcineproject.api.RetrofitInstance
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 class BuscarFilmeViewModel : ViewModel() {
 
     private val _resultado = MutableLiveData<List<FilmeUi>>()
-    val resultado: LiveData<List<FilmeUi>> = _resultado
+    val resultado: LiveData<List<FilmeUi>> get() = _resultado
 
     fun buscarFilmes(query: String) {
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.api.buscarFilmes(query)
-                if (response.isSuccessful) {
-                    val filmesResponse = response.body()
-                    _resultado.value = filmesResponse?.results?.map { it.toUiModel() } ?: emptyList()
-                } else {
-                    _resultado.value = emptyList()
-                }
+                val response: FilmeResponse = RetrofitInstance.api.buscarFilmes(query)
+                val filmesUi = response.results?.map { it.toUiModel() } ?: emptyList()
+                _resultado.postValue(filmesUi)
             } catch (e: Exception) {
-                _resultado.value = emptyList()
-
-                Log.e("Buscar FIlme", "Error", e);
+                e.printStackTrace()
+                _resultado.postValue(emptyList())
             }
         }
     }

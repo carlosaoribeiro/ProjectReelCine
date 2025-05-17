@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Tema geral do app (se já existir, mantenha) -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Customize seu tema aqui -->
+    </style>
+
+    <!-- Estilo do botão personalizado -->
+    <style name="Button.TeachTrack" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">#FFFFFF</item> <!-- fundo branco -->
+        <item name="android:textColor">#0B132B</item> <!-- texto escuro -->
+        <item name="cornerRadius">24dp</item> <!-- cantos arredondados -->
+        <item name="android:elevation">4dp</item>
+    </style>
+
+</resources>

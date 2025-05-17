@@ -1,7 +1,5 @@
 package com.carlosribeiro.reelcineproject.model
 
-import com.google.firebase.Timestamp
-
 data class Recomendacao(
     val titulo: String = "",
     val comentario: String = "",

@@ -30,7 +30,7 @@
         <activity android:name="com.carlosribeiro.reelcineproject.ui.recomendacao.RecomendarFilmeActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.MainActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.CadastroActivity" />
-        <activity android:name="com.carlosribeiro.reelcineproject.ui.grupos.GruposActivity" />
+        <activity android:name="com.carlosribeiro.reelcineproject.ui.GruposActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.feed.FeedActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.LoginActivity" />
     </application>
