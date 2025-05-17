@@ -7,12 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.carlosribeiro.reelcineproject.model.Recomendacao
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
-
+import kotlinx.coroutines.launch
 
 class RecomendacoesViewModel : ViewModel() {
 
@@ -23,8 +21,6 @@ class RecomendacoesViewModel : ViewModel() {
         Log.d("RecomendacoesVM", "Iniciando busca por recomendações...")
 
         val user = FirebaseAuth.getInstance().currentUser
-        Log.d("RecomendacoesVM", "UID atual: ${user?.uid}")
-
         val uid = user?.uid
         if (uid == null) {
             Log.e("RecomendacoesVM", "UID do usuário é nulo.")
@@ -38,7 +34,6 @@ class RecomendacoesViewModel : ViewModel() {
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
-                Log.d("RecomendacoesVM", "Recomendações carregadas: ${result.size()}")
                 val lista = result.mapNotNull { doc ->
                     try {
                         doc.toObject(Recomendacao::class.java)
@@ -48,15 +43,42 @@ class RecomendacoesViewModel : ViewModel() {
                     }
                 }
                 _recomendacoes.value = lista
+                Log.d("RecomendacoesVM", "Recomendações carregadas: ${lista.size}")
             }
             .addOnFailureListener { e ->
                 Log.e("RecomendacoesVM", "Erro ao buscar recomendações: ${e.message}")
             }
     }
 
+    fun adicionarRecomendacao(recomendacao: Recomendacao) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val uid = user?.uid
+        if (uid == null) {
+            Log.e("RecomendacoesVM", "UID do usuário é nulo.")
+            return
+        }
+
+        val recomendacaoMap = hashMapOf(
+            "titulo" to recomendacao.titulo,
+            "comentario" to recomendacao.comentario,
+            "posterPath" to recomendacao.posterPath,
+            "timestamp" to FieldValue.serverTimestamp(),
+            "usuarioNome" to recomendacao.usuarioNome,
+            "autor" to recomendacao.autor,
+            "avatarUrl" to recomendacao.avatarUrl
+        )
+
+        FirebaseFirestore.getInstance()
+            .collection("usuarios")
+            .document(uid)
+            .collection("recomendacoes")
+            .add(recomendacaoMap)
+            .addOnSuccessListener {
+                Log.d("RecomendacoesVM", "✅ Recomendação salva com sucesso.")
+                buscarTodasRecomendacoes() // 🔄 Atualiza o feed imediatamente
+            }
+            .addOnFailureListener { e ->
+                Log.e("RecomendacoesVM", "❌ Erro ao salvar recomendação: ${e.message}")
+            }
+    }
 }
-
-
-
-
-

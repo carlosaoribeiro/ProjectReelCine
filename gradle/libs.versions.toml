@@ -26,6 +26,7 @@ playServicesAuth = "21.3.0"
 retrofit = "2.9.0"
 firebase = "28.4.1"
 firebaseFirestoreKtx = "25.1.4"
+firebaseStorageKtx = "21.0.1"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
@@ -57,6 +58,7 @@ material-v1110 = { module = "com.google.android.material:material", version.ref 
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

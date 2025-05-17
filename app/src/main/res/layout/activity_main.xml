@@ -33,6 +33,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!-- ProgressBar -->
+                <ProgressBar
+                    android:id="@+id/progressLoading"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="24dp"
+                    android:visibility="gone" />
+
                 <!-- Em Alta -->
                 <TextView
                     android:layout_width="wrap_content"
@@ -41,6 +51,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -59,6 +70,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -77,6 +89,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -95,6 +108,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -115,7 +129,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#0B132B"
-        app:itemTextColor="@android:color/white"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/menu_drawer" />
+        app:menu="@menu/menu_drawer"
+        app:itemTextColor="@android:color/white"
+        app:itemIconPadding="16dp"
+        app:itemTextAppearance="@style/NavDrawerItemStyle" />
+
 </androidx.drawerlayout.widget.DrawerLayout>
