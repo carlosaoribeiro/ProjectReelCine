@@ -19,58 +19,38 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.textEsqueciSenha.setOnClickListener {
-            val email = binding.editEmail.text.toString().trim()
-            if (email.isEmpty()) {
-                Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            FirebaseAuth.getInstance().sendPasswordResetEmail(email)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Password reset email sent", Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
-                    }
-                }
-        }
-
-
-        // Inicializa o Firebase Auth
         auth = FirebaseAuth.getInstance()
 
-        // Botão de login
+        // Login
         binding.btnEntrar.setOnClickListener {
             loginUser()
         }
 
-        // Link para tela de cadastro
+        // Link para cadastro
         binding.linkCadastro.setOnClickListener {
             startActivity(Intent(this, CadastroActivity::class.java))
         }
 
-        // Link para esqueci minha senha
+        // Link para redefinição de senha
         binding.textEsqueciSenha.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Função 'Esqueci minha senha' ainda não implementada",
-                Toast.LENGTH_SHORT
-            ).show()
+            val email = binding.editEmail.text.toString().trim()
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Digite seu e-mail para redefinir a senha", Toast.LENGTH_SHORT).show()
+            } else {
+                FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(this, "E-mail de redefinição enviado!", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(this, "Erro: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                        }
+                    }
+            }
         }
-        binding.textEsqueciSenha.setOnClickListener {
-            startActivity(Intent(this, ForgotPasswordActivity::class.java))
-        }
-
-
-
     }
-
-
 
     override fun onStart() {
         super.onStart()
-
         val usuarioLogado = auth.currentUser
         if (usuarioLogado != null) {
             startActivity(Intent(this, MainActivity::class.java))

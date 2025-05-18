@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:clickable="false"
+    android:focusable="false"
     card_view:cardCornerRadius="12dp"
     card_view:cardElevation="6dp">
 
@@ -18,7 +20,9 @@
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:contentDescription="Capa do filme" />
+            android:contentDescription="Capa do filme"
+            android:clickable="false"
+            android:focusable="false" />
 
         <LinearLayout
             android:orientation="vertical"

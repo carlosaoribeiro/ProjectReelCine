@@ -12,9 +12,7 @@ import com.carlosribeiro.reelcineproject.R
 import com.carlosribeiro.reelcineproject.databinding.ActivityRecomendarFilmeBinding
 import com.carlosribeiro.reelcineproject.model.FilmeUi
 import com.carlosribeiro.reelcineproject.model.Recomendacao
-import com.carlosribeiro.reelcineproject.ui.GruposActivity
-import com.carlosribeiro.reelcineproject.ui.MainActivity
-import com.carlosribeiro.reelcineproject.ui.PerfilActivity
+import com.carlosribeiro.reelcineproject.ui.*
 import com.carlosribeiro.reelcineproject.ui.adapter.FilmeBuscaAdapter
 import com.carlosribeiro.reelcineproject.ui.feed.FeedActivity
 import com.carlosribeiro.reelcineproject.viewmodel.BuscarFilmeViewModel
@@ -22,6 +20,12 @@ import com.carlosribeiro.reelcineproject.viewmodel.RecomendacoesViewModel
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import android.view.inputmethod.InputMethodManager
+import android.content.Context
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import com.bumptech.glide.Glide
 
 class RecomendarFilmeActivity : AppCompatActivity() {
 
@@ -47,6 +51,25 @@ class RecomendarFilmeActivity : AppCompatActivity() {
         )
         binding.drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
+
+        val headerView = binding.navigationView.getHeaderView(0)
+        val avatarHeader = headerView.findViewById<ImageView>(R.id.imageUserAvatar)
+        val nomeHeader = headerView.findViewById<TextView>(R.id.textUserName)
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+        FirebaseFirestore.getInstance().collection("usuarios").document(uid ?: "")
+            .get()
+            .addOnSuccessListener { doc ->
+                val nome = doc.getString("nome") ?: "Usuário"
+                val avatarUrl = doc.getString("avatarUrl")
+                nomeHeader.text = nome
+                if (!avatarUrl.isNullOrEmpty()) {
+                    Glide.with(this)
+                        .load(avatarUrl)
+                        .circleCrop()
+                        .into(avatarHeader)
+                }
+            }
 
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -76,8 +99,10 @@ class RecomendarFilmeActivity : AppCompatActivity() {
         binding.recyclerViewFilmes.adapter = adapter
 
         binding.btnBuscar.setOnClickListener {
-            val query = binding.editBusca.text.toString()
+            val query = binding.editBusca.text.toString().trim()
             if (query.isNotBlank()) {
+                esconderTeclado()
+                binding.progressBuscar.visibility = View.VISIBLE
                 viewModel.buscarFilmes(query)
             } else {
                 Toast.makeText(this, "Digite o nome do filme", Toast.LENGTH_SHORT).show()
@@ -85,6 +110,7 @@ class RecomendarFilmeActivity : AppCompatActivity() {
         }
 
         viewModel.resultado.observe(this) { filmes ->
+            binding.progressBuscar.visibility = View.GONE
             adapter.submitList(null)
             adapter.submitList(filmes)
         }
@@ -123,5 +149,10 @@ class RecomendarFilmeActivity : AppCompatActivity() {
                 Toast.makeText(this, "Selecione um filme e digite um comentário", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun esconderTeclado() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.editBusca.windowToken, 0)
     }
 }

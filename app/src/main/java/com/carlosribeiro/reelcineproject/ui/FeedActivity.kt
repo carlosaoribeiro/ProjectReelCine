@@ -1,18 +1,27 @@
 package com.carlosribeiro.reelcineproject.ui.feed
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.carlosribeiro.reelcineproject.R
 import com.carlosribeiro.reelcineproject.databinding.ActivityFeedBinding
-import com.carlosribeiro.reelcineproject.ui.GruposActivity
-import com.carlosribeiro.reelcineproject.ui.LoginActivity
+import com.carlosribeiro.reelcineproject.ui.*
 import com.carlosribeiro.reelcineproject.ui.recomendacao.RecomendarFilmeActivity
 import com.carlosribeiro.reelcineproject.viewmodel.FeedViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.jvm.java
 
 class FeedActivity : AppCompatActivity() {
 
@@ -26,10 +35,8 @@ class FeedActivity : AppCompatActivity() {
         binding = ActivityFeedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Toolbar
+        // 🔧 Toolbar e Drawer
         setSupportActionBar(binding.toolbar)
-
-        // Drawer toggle
         drawerToggle = ActionBarDrawerToggle(
             this,
             binding.drawerLayout,
@@ -40,13 +47,35 @@ class FeedActivity : AppCompatActivity() {
         binding.drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
-        // Menu lateral
+        // 💡 Header do menu com avatar e nome
+        val headerView = binding.navigationView.getHeaderView(0)
+        val avatarImage = headerView.findViewById<ImageView>(R.id.imageUserAvatar)
+        val userNameText = headerView.findViewById<TextView>(R.id.textUserName)
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid != null) {
+            FirebaseFirestore.getInstance().collection("usuarios").document(uid)
+                .get()
+                .addOnSuccessListener { doc ->
+                    userNameText.text = doc.getString("nome") ?: "Usuário"
+                    val avatarUrl = doc.getString("avatarUrl")
+                    if (!avatarUrl.isNullOrEmpty()) {
+                        Glide.with(this)
+                            .load(avatarUrl)
+                            .circleCrop()
+                            .into(avatarImage)
+                    }
+                }
+        }
+
+        // ☰ Menu lateral
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_feed -> {
-                    binding.drawerLayout.closeDrawers()
+                R.id.nav_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
                     true
                 }
+                R.id.nav_feed -> true // já está aqui
                 R.id.nav_grupos -> {
                     startActivity(Intent(this, GruposActivity::class.java))
                     true
@@ -55,30 +84,38 @@ class FeedActivity : AppCompatActivity() {
                     startActivity(Intent(this, RecomendarFilmeActivity::class.java))
                     true
                 }
+                R.id.nav_perfil -> {
+                    startActivity(Intent(this, PerfilActivity::class.java))
+                    true
+                }
                 R.id.nav_logout -> {
+                    FirebaseAuth.getInstance().signOut()
                     startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
+                    finishAffinity()
                     true
                 }
                 else -> false
+            }.also {
+                binding.drawerLayout.closeDrawers()
             }
         }
 
-        // RecyclerView
+        // 📰 Lista de recomendações
         adapter = RecomendacaoAdapter()
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
-        // Botão flutuante
+        // ➕ FAB
         binding.fabRecomendar.setOnClickListener {
             startActivity(Intent(this, RecomendarFilmeActivity::class.java))
         }
 
-        // ViewModel
+        // 📡 ViewModel
         viewModel = ViewModelProvider(this)[FeedViewModel::class.java]
-
+        binding.progressFeed.visibility = View.VISIBLE
         viewModel.recomendacoes.observe(this) { lista ->
             Log.d("FeedActivity", "Lista recebida: ${lista.size}")
+            binding.progressFeed.visibility = View.GONE
             adapter.submitList(null)
             adapter.submitList(lista)
         }
