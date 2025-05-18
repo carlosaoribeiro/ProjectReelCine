@@ -1,36 +1,50 @@
+
 # 🎬 ReelCineProject
 
-Um aplicativo Android de recomendações sociais de filmes, onde os usuários podem sugerir filmes em círculos privados, buscar dados da API TMDB e compartilhar recomendações em tempo real com integração ao Firebase.
+An Android app for social movie recommendations, where users can suggest films in private circles, search movie data via the TMDB API, and share recommendations in real time with Firebase integration.
 
 ---
 
-## ✅ Funcionalidades
+## 🎯 Inspiration Behind the Name
 
-- 🔐 Autenticação com Firebase (login e cadastro)  
-- 👤 Salvamento de nome, e-mail e UID com `SessionManager`  
-- 🔍 Busca de filmes usando a API do TMDB  
-- ➕ Recomendar filmes com comentários e pôster  
-- 👥 Criar e gerenciar grupos privados ("círculos")  
-- 📋 Listar recomendações em um feed colaborativo  
-- 🧾 Cards com pôster, título, autor, comentário e horário  
-- 🔄 Sincronização em tempo real com Firebase Firestore  
-- 🌙 Tema escuro moderno com botões arredondados  
+**ReelCine** is a fusion of “Reel” (as in film reel) and “Cine” (cinema in Portuguese), representing the connection between classic movie experiences and modern digital sharing. The name reflects the app's mission: creating a social and collaborative cinema-like experience, where friends share movie suggestions as if chatting after a film session.
 
 ---
 
-## 🧪 Requisitos
+## 🩹 Problem We're Solving
 
-- Android Studio (recomendado: Hedgehog ou mais recente)  
-- SDK mínimo Android: 24  
-- Projeto no Firebase com Firestore e Authentication ativados  
-- Chave de API do TMDB (https://www.themoviedb.org/documentation/api)  
-- Permissões necessárias:
+Today, it’s hard to remember or recover good movie recommendations shared by friends. Suggestions get lost in WhatsApp chats, social media threads, or forgotten notes.  
+**ReelCine** solves this by creating a dedicated space for **organized, visual, and trustworthy movie recommendations** within private groups, featuring personalized comments, posters, and real-time sync.
+
+---
+
+## ✅ Features
+
+- 🔐 Firebase Authentication (sign-up and login)  
+- 👤 Save name, email, and UID with `SessionManager`  
+- 🔍 Search for movies using the TMDB API  
+- ➕ Recommend movies with comments and posters  
+- 👥 Create and manage private groups ("circles")  
+- 📋 Display recommendations in a collaborative feed  
+- 🧾 Cards with poster, title, author, comment, and timestamp  
+- 🔄 Real-time sync with Firebase Firestore  
+- 🌙 Modern dark theme with rounded buttons  
+
+---
+
+## 🧪 Requirements
+
+- Android Studio (recommended: Hedgehog or newer)  
+- Minimum Android SDK: 24  
+- Firebase project with Firestore and Authentication enabled  
+- TMDB API key (https://www.themoviedb.org/documentation/api)  
+- Required permissions:
   - `INTERNET`
   - `ACCESS_NETWORK_STATE`
 
 ---
 
-## 🖼️ Capturas de Tela
+## 🖼️ Screenshots
 
 <div align="center">
   <img src="screenshots/splash.png" width="180"/>
@@ -42,76 +56,76 @@ Um aplicativo Android de recomendações sociais de filmes, onde os usuários po
 
 ---
 
-## 🚀 Como Usar
+## 🚀 How to Use
 
-1. Instale o app no seu dispositivo Android  
-2. Crie sua conta ou faça login com e-mail e senha  
-3. Crie ou entre em um grupo  
-4. Toque em **+ Recomendar Filme** para buscar um filme e adicionar um comentário  
-5. Veja as recomendações no **Feed** com nome do autor, imagem e comentário  
-6. Todas as ações são salvas automaticamente no Firestore em tempo real  
-
----
-
-## 🧱 Telas Principais
-
-- `SplashActivity`: Tela de carregamento  
-- `LoginActivity`: Login via Firebase  
-- `CadastroUsuarioActivity`: Cadastro de usuário  
-- `MainActivity`: Menu principal com navegação  
-- `GruposActivity`: Listagem e criação de grupos  
-- `RecomendacoesGrupoFragment`: Feed do grupo com recomendações  
-- `RecomendarFilmeActivity`: Busca e recomendação de filmes  
-- `FeedActivity`: Feed geral de recomendações  
+1. Install the app on your Android device  
+2. Sign up or log in with email and password  
+3. Create or join a group  
+4. Tap **+ Recommend Movie** to search for a movie and add a comment  
+5. View recommendations in the **Feed** with author name, poster, and message  
+6. All actions are saved automatically in Firestore in real time  
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🧱 Main Screens
+
+- `SplashActivity`: Splash screen  
+- `LoginActivity`: Firebase login  
+- `CadastroUsuarioActivity`: User registration  
+- `MainActivity`: Main menu with navigation  
+- `GruposActivity`: Group listing and creation  
+- `RecomendacoesGrupoFragment`: Group feed with recommendations  
+- `RecomendarFilmeActivity`: Search and recommend movies  
+- `FeedActivity`: General feed with all recommendations  
+
+---
+
+## 🛠️ Technologies Used
 
 - Kotlin  
-- Arquitetura MVVM  
+- MVVM Architecture  
 - Firebase Authentication  
 - Firebase Firestore  
-- Retrofit (API TMDB)  
-- RecyclerView com adapters personalizados  
-- Glide para carregamento de imagens  
+- Retrofit (TMDB API)  
+- RecyclerView with custom adapters  
+- Glide for image loading  
 - Material Design  
-- Tema escuro personalizado (#0B132B com texto branco e botões roxos arredondados)  
+- Custom dark theme (#0B132B background with white text and rounded purple buttons)  
 
 ---
 
-## 📁 Estrutura no Firestore
+## 📁 Firestore Structure
 
 - `usuarios`  
-  - Campos: `nome`, `email`, `avatarUrl`, `uid`  
+  - Fields: `nome`, `email`, `avatarUrl`, `uid`  
 
 - `usuarios/{uid}/recomendacoes`  
-  - Campos: `titulo`, `comentario`, `posterPath`, `timestamp`, `usuarioNome`, `avatarUrl`  
+  - Fields: `titulo`, `comentario`, `posterPath`, `timestamp`, `usuarioNome`, `avatarUrl`  
 
 - `grupos`  
-  - Campos: `nome`, `descricao`, `adminId`  
+  - Fields: `nome`, `descricao`, `adminId`  
 
 - `grupos/{grupoId}/recomendacoes`  
-  - Campos: `titulo`, `comentario`, `posterPath`, `timestamp`, `usuarioNome`, `avatarUrl`  
+  - Fields: `titulo`, `comentario`, `posterPath`, `timestamp`, `usuarioNome`, `avatarUrl`  
 
 ---
 
-## 📌 Observações
+## 📌 Notes
 
-- Cada grupo possui seu próprio feed de recomendações  
-- Busca de filmes via TMDB com resultados em tempo real  
-- `SessionManager` gerencia os dados locais do usuário  
-- Layout moderno e acessível, com interface escura  
-- Permite expansão futura para comentários, curtidas e recomendações cruzadas  
-
----
-
-## 🔐 Segurança e Privacidade
-
-Todos os dados são armazenados com segurança no **Firebase Firestore** e acessíveis apenas pelo usuário autenticado. A autenticação é feita pelo **Firebase Authentication** com controle de acesso baseado no UID.
+- Each group has its own recommendation feed  
+- Movie search via TMDB API with real-time results  
+- `SessionManager` handles local user data  
+- Clean and accessible layout with dark interface  
+- Easily expandable for likes, comments, and cross-recommendations  
 
 ---
 
-## 📄 Licença
+## 🔐 Security and Privacy
 
-Este projeto é de uso educacional e para portfólio pessoal. Para uso comercial ou contribuições, entre em contato com o autor.
+All data is securely stored in **Firebase Firestore** and only accessible to authenticated users. Authentication is handled by **Firebase Authentication** with UID-based access control.
+
+---
+
+## 📄 License
+
+This project is for educational and personal portfolio use. For commercial use or contributions, please contact the author.
