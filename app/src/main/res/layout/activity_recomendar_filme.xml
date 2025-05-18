@@ -7,121 +7,118 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <!-- Conteúdo principal -->
+    <!-- Container Principal -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#0B132B"
-        android:fitsSystemWindows="true">
+        android:background="#0B132B">
 
-        <!-- Toolbar -->
+        <!-- Toolbar personalizada -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:background="#0B132B"
-            android:title="ReelCine"
-            android:titleTextColor="#FFFFFF"
-            android:layout_marginTop="40dp"
-            android:elevation="4dp"
-            android:paddingStart="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
-            app:contentInsetStartWithNavigation="0dp" />
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="ReelCine"
+            app:titleTextColor="@android:color/white"
+            android:elevation="4dp" />
 
-        <!-- Formulário -->
+        <!-- Conteúdo com Scroll e padding superior -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp">
+            android:padding="20dp"
+            android:paddingTop="?attr/actionBarSize">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:divider="?android:attr/dividerVertical"
-                android:dividerPadding="8dp"
-                android:showDividers="middle">
+                android:orientation="vertical">
 
-                <!-- Buscar -->
+                <!-- Campo de busca -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
                     android:text="Buscar filme"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
+                    android:textSize="16sp"
+                    android:layout_marginBottom="6dp" />
 
                 <EditText
                     android:id="@+id/editBusca"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#FFFFFF"
                     android:hint="Digite o nome do filme"
-                    android:textColor="#FFFFFF"
                     android:textColorHint="#AAAAAA"
-                    android:inputType="text" /> <!-- 🛑 sem multiLine -->
+                    android:textColor="#FFFFFF"
+                    android:backgroundTint="#FFFFFF"
+                    android:inputType="text"
+                    android:imeOptions="actionDone" />
+
+                <ProgressBar
+                    android:id="@+id/progressBuscar"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnBuscar"
-                    style="@style/Button.TeachTrack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="🔍 Buscar" />
+                    android:text="🔍 Buscar"
+                    style="@style/Button.TeachTrack"
+                    android:layout_marginTop="12dp" />
 
-                <!-- Filme Selecionado -->
                 <TextView
                     android:id="@+id/textFilmeSelecionado"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
                     android:text="🎞️ Filme selecionado: nenhum"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
+                    android:textColor="#FFFFFF" />
 
-                <!-- Comentário -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="20dp"
                     android:text="Seu comentário"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/editComentario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#FFFFFF"
                     android:hint="Digite sua opinião"
-                    android:textColor="#FFFFFF"
                     android:textColorHint="#AAAAAA"
-                    android:inputType="text" /> <!-- 🛑 sem multiLine -->
+                    android:textColor="#FFFFFF"
+                    android:backgroundTint="#FFFFFF"
+                    android:inputType="text"
+                    android:imeOptions="actionDone" />
 
-                <!-- Botão Salvar -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSalvarRecomendacao"
-                    style="@style/Button.TeachTrack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="✅ Recomendar filme" />
+                    android:text="✅ Recomendar Filme"
+                    style="@style/Button.TeachTrack"
+                    android:layout_marginTop="16dp" />
 
-                <!-- Lista de Filmes -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewFilmes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp" />
+                    android:layout_marginTop="24dp" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
 
-    <!-- Menu lateral -->
+    <!-- Navigation Menu -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
@@ -129,6 +126,8 @@
         android:layout_gravity="start"
         android:background="#0B132B"
         app:headerLayout="@layout/nav_header"
+        app:menu="@menu/menu_drawer"
         app:itemTextColor="@android:color/white"
-        app:menu="@menu/menu_drawer" />
+        app:itemIconPadding="16dp"
+        app:itemTextAppearance="@style/NavDrawerItemStyle" />
 </androidx.drawerlayout.widget.DrawerLayout>

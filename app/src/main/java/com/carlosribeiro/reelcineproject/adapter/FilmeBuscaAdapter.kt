@@ -32,7 +32,11 @@ class FilmeBuscaAdapter(
             Glide.with(root.context)
                 .load("https://image.tmdb.org/t/p/w500${filme.posterPath}")
                 .into(imagePoster)
-            root.setOnClickListener { onItemClick(filme) }
+
+            // Clique agora é somente no botão "Selecionar"
+            btnSelecionar.setOnClickListener {
+                onItemClick(filme)
+            }
         }
     }
 

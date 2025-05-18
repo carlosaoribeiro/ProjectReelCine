@@ -10,13 +10,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.carlosribeiro.reelcineproject.databinding.ActivityCadastroBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
-import java.util.*
 
 class CadastroActivity : AppCompatActivity() {
 
@@ -41,7 +41,6 @@ class CadastroActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
-        // 👉 Clique no avatar para tirar selfie
         binding.imageAvatar.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -56,7 +55,6 @@ class CadastroActivity : AppCompatActivity() {
             }
         }
 
-        // 👉 Botão de cadastrar
         binding.btnCadastrar.setOnClickListener {
             val nome = binding.editTextNome.text.toString().trim()
             val email = binding.editTextEmail.text.toString().trim()
@@ -157,9 +155,11 @@ class CadastroActivity : AppCompatActivity() {
     private fun saveUserToFirestore(userId: String, nome: String, email: String, avatarUrl: String?) {
         val userMap = hashMapOf(
             "nome" to nome,
-            "email" to email,
-            "avatarUrl" to avatarUrl
+            "email" to email
         )
+        if (avatarUrl != null) {
+            userMap["avatarUrl"] = avatarUrl
+        }
 
         firestore.collection("usuarios").document(userId)
             .set(userMap)

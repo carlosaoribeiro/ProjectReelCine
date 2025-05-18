@@ -14,6 +14,12 @@ class FilmeDetailsActivity : AppCompatActivity() {
         binding = ActivityDetalhesFilmeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Ativa a Toolbar com o botão de voltar
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)  // Habilita o ícone de voltar
+        supportActionBar?.setDisplayShowHomeEnabled(true) // Garante que o ícone de voltar seja mostrado
+        supportActionBar?.title = ""  // Limpa o título da toolbar
+
         // Recupera dados do intent
         val titulo = intent.getStringExtra("titulo") ?: "Sem título"
         val descricao = intent.getStringExtra("descricao") ?: "Sem descrição"
@@ -35,10 +41,18 @@ class FilmeDetailsActivity : AppCompatActivity() {
         Glide.with(this)
             .load("https://image.tmdb.org/t/p/w780$backdropPath")
             .into(binding.imageCapa)
+    }
 
-        // Botão voltar
-        binding.btnVoltar.setOnClickListener {
-            finish()
-        }
+    // Função que define o comportamento do botão de voltar
+    override fun onSupportNavigateUp(): Boolean {
+        // Chama o método de voltar padrão
+        onBackPressed()  // Chama o método que simula o comportamento de voltar
+        return true
+    }
+
+    // Opcional: Reverter comportamento da seta de voltar
+    override fun onBackPressed() {
+        super.onBackPressed()
+        // Você pode adicionar alguma ação aqui se precisar
     }
 }

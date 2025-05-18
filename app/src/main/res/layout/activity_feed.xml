@@ -13,15 +13,24 @@
         android:orientation="vertical"
         android:background="#0B132B">
 
+        <ProgressBar
+            android:id="@+id/progressFeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:paddingTop="30dp"
+            android:layout_height="wrap_content"
             android:background="#0B132B"
             android:elevation="4dp"
-            app:titleTextColor="#FFFFFF"
-            app:title="Feed de Recomendaçoes" />
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="Feed de Recomendações"
+            app:titleTextColor="@android:color/white" />
+
 
         <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
