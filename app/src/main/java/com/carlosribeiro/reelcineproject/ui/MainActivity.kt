@@ -157,6 +157,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun abrirDetalhesFilme(filme: FilmeUi) {
         val intent = Intent(this, FilmeDetailsActivity::class.java).apply {
+            putExtra("id", filme.id)
             putExtra("titulo", filme.titulo)
             putExtra("descricao", filme.descricao)
             putExtra("posterPath", filme.posterPath)
