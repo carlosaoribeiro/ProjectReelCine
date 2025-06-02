@@ -4,6 +4,9 @@ import com.carlosribeiro.reelcineproject.network.response.FilmeResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 import com.carlosribeiro.reelcineproject.BuildConfig
+import com.carlosribeiro.reelcineproject.network.response.FilmeVideoResponse
+import retrofit2.Response
+import retrofit2.http.Path
 
 interface TMDBService {
 
@@ -36,4 +39,10 @@ interface TMDBService {
         @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY,
         @Query("language") language: String = "pt-BR"
     ): FilmeResponse
+
+    @GET("movie/{movie_id}/videos")
+    suspend fun getVideos(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY
+    ): Response<FilmeVideoResponse>
 }
