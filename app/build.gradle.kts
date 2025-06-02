@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -64,6 +66,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
+    implementation (libs.firebase.appcheck.debug)
+
 
     // Imagens
     implementation(libs.coil)
@@ -98,5 +102,9 @@ dependencies {
 
     //Animation
     implementation (libs.lottie)
+
+    implementation (libs.google.firebase.appcheck.debug)
+    implementation (libs.firebase.appcheck.playintegrity)
+
 
 }

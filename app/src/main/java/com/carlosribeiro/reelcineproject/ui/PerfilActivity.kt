@@ -7,6 +7,7 @@ import android.content.pm.PackageManager // ← IMPORTAÇÃO FALTANTE
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -100,28 +101,27 @@ class PerfilActivity : AppCompatActivity() {
     }
 
     // Função para salvar usuário no Firestore
+    // Função para salvar usuário no Firestore
     private fun salvarUsuario(nome: String, email: String, avatarUrl: String?) {
-        val userMap = hashMapOf(
+        val usuario = hashMapOf(
             "nome" to nome,
-            "email" to email
+            "email" to email,
+            "avatarUrl" to (avatarUrl ?: "")
         )
-        if (avatarUrl != null) {
-            userMap["avatarUrl"] = avatarUrl
-        }
 
         uid?.let {
             firestore.collection("usuarios").document(it)
-                .update(userMap as Map<String, Any>)
+                .set(usuario)
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Perfil atualizado!", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                    Toast.makeText(this, "Perfil salvo com sucesso", Toast.LENGTH_SHORT).show()
                 }
-                .addOnFailureListener {
+                .addOnFailureListener { e ->
+                    Log.e("PerfilActivity", "Erro ao salvar perfil", e)
                     Toast.makeText(this, "Erro ao salvar perfil", Toast.LENGTH_SHORT).show()
                 }
         }
     }
+
 
     // Função para upload da foto no Firebase Storage
     private fun uploadAvatar(bitmap: Bitmap, callback: (String) -> Unit) {
