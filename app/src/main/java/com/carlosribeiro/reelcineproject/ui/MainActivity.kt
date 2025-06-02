@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.carlosribeiro.reelcineproject.ui.main.FilmeHorizontalAdapter
 import com.carlosribeiro.reelcineproject.ui.recomendacao.RecomendarFilmeActivity
-import kotlin.jvm.java
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,30 +33,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.progressLoading.visibility = View.VISIBLE
-
-        // Header do menu com avatar + nome
-        val headerView = binding.navigationView.getHeaderView(0)
-        val imageUserAvatar = headerView.findViewById<ImageView>(R.id.imageUserAvatar)
-        val textUserName = headerView.findViewById<TextView>(R.id.textUserName)
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-        if (uid != null) {
-            FirebaseFirestore.getInstance().collection("usuarios").document(uid)
-                .get()
-                .addOnSuccessListener { doc ->
-                    val nome = doc.getString("nome") ?: "Usuário"
-                    val avatarUrl = doc.getString("avatarUrl")
-
-                    textUserName.text = nome
-
-                    if (!avatarUrl.isNullOrEmpty()) {
-                        Glide.with(this)
-                            .load(avatarUrl)
-                            .circleCrop()
-                            .into(imageUserAvatar)
-                    }
-                }
-        }
+        atualizarHeaderUsuario()
 
         setSupportActionBar(binding.toolbar)
 
@@ -74,35 +50,28 @@ class MainActivity : AppCompatActivity() {
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home -> {
-                    Log.d("NAV", "Clicou em Home")
-                    val intent = Intent(this, MainActivity::class.java).apply {
+                    startActivity(Intent(this, MainActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    }
-                    startActivity(intent)
+                    })
                     true
                 }
                 R.id.nav_feed -> {
-                    Log.d("NAV", "Clicou em Feed")
                     startActivity(Intent(this, FeedActivity::class.java))
                     true
                 }
                 R.id.nav_grupos -> {
-                    Log.d("NAV", "Clicou em Grupos")
                     startActivity(Intent(this, GruposActivity::class.java))
                     true
                 }
                 R.id.nav_recomendacoes -> {
-                    Log.d("NAV", "Clicou em Recomendações")
                     startActivity(Intent(this, RecomendarFilmeActivity::class.java))
                     true
                 }
                 R.id.nav_perfil -> {
-                    Log.d("NAV", "Clicou em Meu Perfil")
                     startActivity(Intent(this, PerfilActivity::class.java))
                     true
                 }
                 R.id.nav_logout -> {
-                    Log.d("NAV", "Clicou Logout")
                     FirebaseAuth.getInstance().signOut()
                     startActivity(Intent(this, LoginActivity::class.java))
                     finishAffinity()
@@ -116,37 +85,25 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        // Carrossel 1 - Em Alta
-        binding.recyclerViewTrending.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        viewModel.filmesTrending.observe(this) { filmes ->
+        binding.recyclerViewTrending.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        viewModel.filmesTrending.observe(this) {
             binding.progressLoading.visibility = View.GONE
-            val adapter = FilmeHorizontalAdapter(filmes) { filme -> abrirDetalhesFilme(filme) }
-            binding.recyclerViewTrending.adapter = adapter
+            binding.recyclerViewTrending.adapter = FilmeHorizontalAdapter(it) { filme -> abrirDetalhesFilme(filme) }
         }
 
-        // Carrossel 2 - Novidades
-        binding.recyclerViewNovidades.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        viewModel.filmesNovidades.observe(this) { filmes ->
-            val adapter = FilmeHorizontalAdapter(filmes) { filme -> abrirDetalhesFilme(filme) }
-            binding.recyclerViewNovidades.adapter = adapter
+        binding.recyclerViewNovidades.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        viewModel.filmesNovidades.observe(this) {
+            binding.recyclerViewNovidades.adapter = FilmeHorizontalAdapter(it) { filme -> abrirDetalhesFilme(filme) }
         }
 
-        // Carrossel 3 - Lançamentos
-        binding.recyclerViewLancamentos.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        viewModel.filmesLancamentos.observe(this) { filmes ->
-            val adapter = FilmeHorizontalAdapter(filmes) { filme -> abrirDetalhesFilme(filme) }
-            binding.recyclerViewLancamentos.adapter = adapter
+        binding.recyclerViewLancamentos.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        viewModel.filmesLancamentos.observe(this) {
+            binding.recyclerViewLancamentos.adapter = FilmeHorizontalAdapter(it) { filme -> abrirDetalhesFilme(filme) }
         }
 
-        // Carrossel 4 - Top Avaliados
-        binding.recyclerViewTopAvaliados.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        viewModel.filmesTopAvaliados.observe(this) { filmes ->
-            val adapter = FilmeHorizontalAdapter(filmes) { filme -> abrirDetalhesFilme(filme) }
-            binding.recyclerViewTopAvaliados.adapter = adapter
+        binding.recyclerViewTopAvaliados.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        viewModel.filmesTopAvaliados.observe(this) {
+            binding.recyclerViewTopAvaliados.adapter = FilmeHorizontalAdapter(it) { filme -> abrirDetalhesFilme(filme) }
         }
 
         viewModel.carregarFilmesTrending()
@@ -155,15 +112,43 @@ class MainActivity : AppCompatActivity() {
         viewModel.carregarFilmesTopAvaliados()
     }
 
+    private fun atualizarHeaderUsuario() {
+        val headerView = binding.navigationView.getHeaderView(0)
+        val imageUserAvatar = headerView.findViewById<ImageView>(R.id.imageUserAvatar)
+        val textUserName = headerView.findViewById<TextView>(R.id.textUserName)
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid != null) {
+            FirebaseFirestore.getInstance().collection("usuarios").document(uid)
+                .get()
+                .addOnSuccessListener { doc ->
+                    val nome = doc.getString("nome") ?: "Usuário"
+                    val avatarUrl = doc.getString("avatarUrl")
+
+                    textUserName.text = nome
+                    if (!avatarUrl.isNullOrEmpty()) {
+                        Glide.with(this)
+                            .load(avatarUrl)
+                            .circleCrop()
+                            .into(imageUserAvatar)
+                    }
+                }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        atualizarHeaderUsuario()
+    }
+
     private fun abrirDetalhesFilme(filme: FilmeUi) {
-        val intent = Intent(this, FilmeDetailsActivity::class.java).apply {
+        startActivity(Intent(this, FilmeDetailsActivity::class.java).apply {
             putExtra("id", filme.id)
             putExtra("titulo", filme.titulo)
             putExtra("descricao", filme.descricao)
             putExtra("posterPath", filme.posterPath)
             putExtra("backdropPath", filme.backdropPath)
             putExtra("ano", filme.ano)
-        }
-        startActivity(intent)
+        })
     }
 }

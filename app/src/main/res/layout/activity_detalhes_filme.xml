@@ -26,7 +26,10 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:title="Filme Detalhes"
                 app:titleTextColor="@android:color/white"
-                android:elevation="4dp" />
+                android:elevation="4dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <!-- Botão Voltar -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -36,7 +39,7 @@
                 android:src="@drawable/ic_arrow_back"
                 app:tint="@android:color/white"
                 android:contentDescription="Voltar"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:backgroundTint="#0B132B"
                 android:layout_marginBottom="8dp" />
