@@ -14,6 +14,10 @@ class FilmeDetailsActivity : AppCompatActivity() {
         binding = ActivityDetalhesFilmeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnVoltar.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         // Ativa a Toolbar com o botão de voltar
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)  // Habilita o ícone de voltar
@@ -46,12 +50,12 @@ class FilmeDetailsActivity : AppCompatActivity() {
     // Função que define o comportamento do botão de voltar
     override fun onSupportNavigateUp(): Boolean {
         // Chama o método de voltar padrão
-        onBackPressed()  // Chama o método que simula o comportamento de voltar
+        onBackPressedDispatcher.onBackPressed()  // Chama o método que simula o comportamento de voltar
         return true
     }
 
     // Opcional: Reverter comportamento da seta de voltar
-    override fun onBackPressed() {
+    fun onBack() {
         super.onBackPressed()
         // Você pode adicionar alguma ação aqui se precisar
     }
