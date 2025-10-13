@@ -4,33 +4,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B132B">
+    android:background="@drawable/bg_pulse">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieReel"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:lottie_rawRes="@raw/reel_spinner"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/textAppName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="20dp"/>
-
-    <TextView
+    <!-- Nome do App com animação -->
+    <com.carlosribeiro.reelcineproject.ui.components.NeonTextView
         android:id="@+id/textAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ReelCine"
-        android:textColor="#FFFFFF"
-        android:textSize="28sp"
+        android:textSize="42sp"
         android:textStyle="bold"
-        android:fontFamily="sans-serif-medium"
-        app:layout_constraintTop_toBottomOf="@+id/lottieReel"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/poppins_regular"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="160dp" />
+
+    <!-- Animação do Logo -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieReel"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        app:lottie_rawRes="@raw/reel_spinner"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:layout_constraintTop_toBottomOf="@id/textAppName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="40dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

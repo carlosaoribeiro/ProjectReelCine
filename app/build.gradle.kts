@@ -22,6 +22,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+
     }
 
     buildFeatures {
@@ -31,7 +35,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -103,7 +107,7 @@ dependencies {
     //Animation
     implementation (libs.lottie)
 
-    implementation (libs.google.firebase.appcheck.debug)
+
     implementation (libs.firebase.appcheck.playintegrity)
 
 
