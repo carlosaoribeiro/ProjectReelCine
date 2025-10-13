@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:gravity="bottom"
     android:padding="16dp"
-    android:background="#0B132B">
+    android:background="@drawable/header_gradient"
+    android:elevation="4dp">
 
     <ImageView
         android:id="@+id/imageUserAvatar"
@@ -14,7 +15,7 @@
         android:src="@drawable/avatar_placeholder"
         android:scaleType="centerCrop"
         android:background="@drawable/avatar_background_circle"
-        android:contentDescription="Avatar do usuário"
+        android:contentDescription="@string/avatar"
         android:layout_marginBottom="8dp" />
 
     <TextView
@@ -22,7 +23,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Carregando..."
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textUserEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="usuario@email.com"
+        android:textColor="#B3FFFFFF"
+        android:textSize="14sp"
+        android:visibility="gone" /> <!-- opcional -->
 </LinearLayout>
