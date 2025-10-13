@@ -1,111 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B132B"
-    android:padding="24dp">
+    tools:context=".ui.LoginActivity">
 
-    <!-- Título -->
-    <TextView
-        android:id="@+id/textTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="50dp"
-        android:text="ReelCine"
-        android:textColor="@android:color/white"
-        android:textSize="48sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- 🌠 Fundo gradiente cósmico -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_cosmic_gradient" />
 
-    <!-- Email -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailLayout"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        app:boxBackgroundColor="#1A2238"
-        app:boxStrokeColor="#888888"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textTitulo">
+    <!-- ✨ Textura leve de estrelas -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/stars_overlay"
+        android:alpha="0.08"
+        android:scaleType="centerCrop" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editEmail"
+    <!-- 🚀 Layout principal -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:inputType="textEmailAddress"
-            android:textColor="@android:color/white" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:paddingHorizontal="16dp">
 
-    <!-- Senha -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/senhaLayout"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Senha"
-        app:boxBackgroundColor="#1A2238"
-        app:boxStrokeColor="#888888"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailLayout">
+            <!-- Título -->
+            <TextView
+                android:id="@+id/textTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:text="ReelCine"
+                android:textSize="48sp"
+                android:fontFamily="@font/poppins_regular"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editSenha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@android:color/white" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <!-- Subtítulo -->
+            <TextView
+                android:id="@+id/textSubtitulo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Descubra e compartilhe recomendações de filmes com seus amigos."
+                android:textAlignment="center"
+                android:textColor="#B0B0B0"
+                android:textSize="14sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/textTitulo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Botão Login -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnEntrar"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Entrar"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        app:backgroundTint="#5D2EFF"
-        app:cornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/senhaLayout" />
+            <!-- Botão Google -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGoogle"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Continuar com Google"
+                android:textColor="@android:color/white"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_google"
+                app:iconTint="@null"
+                app:iconSize="24dp"
+                app:iconPadding="8dp"
+                app:iconGravity="textStart"
+                android:backgroundTint="#1A2238"
+                app:strokeColor="#333A50"
+                app:strokeWidth="1dp"
+                app:cornerRadius="24dp"
+                app:layout_constraintTop_toBottomOf="@id/textSubtitulo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="40dp" />
 
-    <!-- Link cadastro -->
+            <!-- Divisor -->
+            <TextView
+                android:id="@+id/textOu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ou"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/btnGoogle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp" />
 
-    <!-- Link senha -->
-    <TextView
-        android:id="@+id/linkCadastro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Não tem uma conta? Cadastre-se"
-        android:textColor="#03DAC5"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textEsqueciSenha" />
+            <!-- Campo E-mail -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailLayout"
+                style="@style/ReelCineInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:hint="Seu e-mail"
+                app:boxBackgroundColor="#331A2238"
+                app:boxStrokeColor="#7C3AED"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxCornerRadiusTopStart="24dp"
+                app:boxCornerRadiusTopEnd="24dp"
+                app:boxCornerRadiusBottomStart="24dp"
+                app:boxCornerRadiusBottomEnd="24dp"
+                app:layout_constraintTop_toBottomOf="@id/textOu"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp">
 
-    <TextView
-        android:id="@+id/textEsqueciSenha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Forgot Password?"
-        android:textColor="@android:color/holo_blue_light"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEntrar" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@android:color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Campo Senha -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/senhaLayout"
+                style="@style/ReelCineInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:layout_marginTop="16dp"
+                android:hint="Senha"
+                app:endIconMode="password_toggle"
+                app:boxBackgroundColor="#331A2238"
+                app:boxStrokeColor="#7C3AED"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxCornerRadiusTopStart="24dp"
+                app:boxCornerRadiusTopEnd="24dp"
+                app:boxCornerRadiusBottomStart="24dp"
+                app:boxCornerRadiusBottomEnd="24dp"
+                app:layout_constraintTop_toBottomOf="@id/emailLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editSenha"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/ReelCineInput"
+                    android:inputType="textPassword"
+                    android:textColor="@android:color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Botão Login -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEntrar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:layout_marginTop="24dp"
+                android:text="Entrar no ReelCine"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:background="@drawable/btn_reelcine_gradient"
+                app:cornerRadius="24dp"
+                app:layout_constraintTop_toBottomOf="@id/senhaLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Links -->
+
+            <TextView
+                android:id="@+id/textEsqueciSenha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Esqueceu sua senha?"
+                android:textColor="#7DD3FC"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnEntrar" />
+
+            <TextView
+                android:id="@+id/linkCadastro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crie sua conta"
+                android:textColor="#A855F7"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/textEsqueciSenha"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="32dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</FrameLayout>
