@@ -12,7 +12,20 @@
           "package_name": "com.carlosribeiro.reelcineproject"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "397058037942-caqk8bp8k37ggv95iqmtq6otmjt2nkns.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.carlosribeiro.reelcineproject",
+            "certificate_hash": "c1af8904a3cfce2c4768fffb097eceb33ba4eb5a"
+          }
+        },
+        {
+          "client_id": "397058037942-239im1r6tc8go527ku3s5kv2chm794qi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyASVtdNL15rSQcfYmYTvCUPn8g038GG-Ew"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397058037942-239im1r6tc8go527ku3s5kv2chm794qi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

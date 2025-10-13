@@ -3,5 +3,11 @@
     <string name="avatar">Avatar do usuário</string>
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="navigation_drawer_close">Fechar menu</string>
+    <!-- 🔑 Firebase / Google Sign-In -->
+
+    <string name="default_web_client_id">
+    397058037942-caqk8bp8k37ggv95iqmtq6otmjt2nkns.apps.googleusercontent.com
+</string>
+
 
 </resources>
