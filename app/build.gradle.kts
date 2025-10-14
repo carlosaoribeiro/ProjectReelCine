@@ -61,7 +61,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.ktx)
@@ -76,20 +75,17 @@ dependencies {
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.appcheck.debug)
     implementation(libs.firebase.appcheck.playintegrity)
-
-    // 🔥 Compatibilidade manual (mantém coerência com o BOM)
-    implementation("com.google.firebase:firebase-auth:22.3.1")
-    implementation("com.google.android.gms:play-services-auth:21.1.0")
+    implementation(libs.play.services.auth) // Dependência do Google Sign-In
 
     // --- Rede / API ---
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor.v4120)
+    implementation(libs.logging.interceptor)
 
     // --- Imagens ---
     implementation(libs.coil)
     implementation(libs.glide)
-    kapt(libs.compiler)
+    kapt(libs.glide.compiler)
     implementation(libs.circleimageview)
 
     // --- Animações ---
@@ -99,4 +95,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }
