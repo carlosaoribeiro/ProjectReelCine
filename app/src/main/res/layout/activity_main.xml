@@ -128,11 +128,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#0B132B"
-        app:headerLayout="@layout/nav_header"
+        android:background="@color/purple_500"
         app:menu="@menu/menu_drawer"
-        app:itemTextColor="@android:color/white"
-        app:itemIconPadding="16dp"
-        app:itemTextAppearance="@style/NavDrawerItemStyle" />
-
+        app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:itemBackground="@drawable/nav_item_background" />
 </androidx.drawerlayout.widget.DrawerLayout>

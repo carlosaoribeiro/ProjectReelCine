@@ -4,7 +4,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
-    id("com.google.gms.google-services")
+    id("com.google.gms.google-services") // ✅ plugin obrigatório para Firebase
 }
 
 val tmdbApiKey = project.findProperty("TMDB_API_KEY")?.toString() ?: ""
@@ -22,10 +22,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
-        vectorDrawables {
-            useSupportLibrary = true
-        }
 
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildFeatures {
@@ -50,65 +48,55 @@ android {
 
     kotlinOptions {
         jvmTarget = "11"
-        languageVersion = "1.9" // Adicionei esta linha para resolver o warning do Kapt
+        languageVersion = "1.9"
     }
 }
 
 kapt {
-    correctErrorTypes = true // Adicionei esta configuração para o Kapt
+    correctErrorTypes = true
 }
 
 dependencies {
-    // AndroidX Core
+    // --- AndroidX Core ---
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.cardview)
+    implementation(libs.androidx.drawerlayout)
 
-    // Firebase
+    // --- Firebase ---
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
-    implementation (libs.firebase.appcheck.debug)
+    implementation(libs.firebase.storage.ktx)
+    implementation(libs.firebase.appcheck.debug)
+    implementation(libs.firebase.appcheck.playintegrity)
 
+    // 🔥 Compatibilidade manual (mantém coerência com o BOM)
+    implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation("com.google.android.gms:play-services-auth:21.1.0")
 
-    // Imagens
-    implementation(libs.coil)
-
-    // Retrofit
+    // --- Rede / API ---
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor.v4120)
-    implementation(libs.firebase.storage.ktx)
 
-    // Testes
+    // --- Imagens ---
+    implementation(libs.coil)
+    implementation(libs.glide)
+    kapt(libs.compiler)
+    implementation(libs.circleimageview)
+
+    // --- Animações ---
+    implementation(libs.lottie)
+
+    // --- Testes ---
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.activity.ktx)
-
-    implementation(libs.google.firebase.auth.ktx)
-    implementation(libs.play.services.auth)
-
-    implementation(libs.circleimageview)
-    implementation(libs.androidx.drawerlayout)
-    implementation(libs.material.v1110)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.cardview)
-    implementation(libs.material)
-
-    // Glide
-    implementation(libs.glide)
-    kapt(libs.compiler)
-
-    //Animation
-    implementation (libs.lottie)
-
-
-    implementation (libs.firebase.appcheck.playintegrity)
-
-
 }
