@@ -1,50 +1,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.ReelCine" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
-    <!-- 🎬 Tema base do app -->
-    <style name="Base.Theme.ReelCineProject" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Cores principais -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorOnPrimary">@android:color/white</item>
-        <item name="colorSecondary">@color/purple_700</item>
+        <item name="colorPrimary">@color/reelcine_accent_purple</item>
+        <item name="colorOnPrimary">@color/white</item> <item name="android:colorBackground">@color/reelcine_dark_blue_primary</item> <item name="colorSurface">@color/reelcine_dark_blue_variant</item> <item name="colorOnBackground">@color/reelcine_text_primary</item>
+        <item name="colorOnSurface">@color/reelcine_text_primary</item>
 
-        <!-- Estilo da Toolbar -->
-        <item name="toolbarStyle">@style/Widget.Toolbar.ReelCineProject</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/reelcine_dark_blue_primary</item>
 
-        <!-- Fonte e aparência geral -->
-        <item name="android:fontFamily">@font/poppins_regular</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <!-- 🌌 Tema principal -->
-    <style name="Theme.ReelCineProject" parent="Base.Theme.ReelCineProject" />
-
-    <!-- 🛠️ Estilo customizado da Toolbar -->
-    <style name="Widget.Toolbar.ReelCineProject" parent="Widget.Material3.Toolbar">
-        <item name="titleTextColor">@android:color/white</item>
-        <item name="android:background">@color/purple_500</item>
-        <item name="android:elevation">4dp</item>
+    <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/reelcine_accent_purple</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">8dp</item>
     </style>
 
-    <!-- ✨ Estilo global para os campos de input -->
-    <style name="ReelCineInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
-        <!-- Cor do hint sempre branca -->
-        <item name="android:textColorHint">@android:color/white</item>
-        <item name="hintTextColor">@android:color/white</item>
-
-        <!-- Aparência da borda -->
-        <item name="boxStrokeColor">#7C3AED</item>
-        <item name="boxStrokeWidthFocused">2dp</item>
-
-        <!-- Fundo translúcido -->
-        <item name="boxBackgroundColor">#331A2238</item>
-
-        <!-- Cantos arredondados -->
-        <item name="boxCornerRadiusTopStart">24dp</item>
-        <item name="boxCornerRadiusTopEnd">24dp</item>
-        <item name="boxCornerRadiusBottomStart">24dp</item>
-        <item name="boxCornerRadiusBottomEnd">24dp</item>
+    <style name="Widget.App.RatingBar" parent="Widget.AppCompat.RatingBar">
+        <item name="colorControlNormal">@color/reelcine_icon_gray</item>
+        <item name="colorControlActivated">@color/reelcine_star_yellow</item>
     </style>
+
+    <style name="Widget.App.NavigationView" parent="Widget.Design.NavigationView">
+        <item name="itemIconTint">@color/white</item>
+        <item name="itemTextColor">@color/white</item>
+    </style>
+
 
 </resources>

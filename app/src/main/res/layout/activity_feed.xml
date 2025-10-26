@@ -7,20 +7,14 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+    <!-- Conteúdo principal -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="#0B132B">
 
-        <ProgressBar
-            android:id="@+id/progressFeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
-
-
+        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -31,25 +25,38 @@
             app:title="Feed de Recomendações"
             app:titleTextColor="@android:color/white" />
 
-
-        <!-- RecyclerView -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <!-- Conteúdo rolável com RecyclerView + Progress + FAB -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:clipToPadding="false"/>
+            android:layout_height="match_parent">
 
-        <!-- Botão Flutuante -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabRecomendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="16dp"
-            android:contentDescription="Recomendar Filme"
-            android:src="@drawable/ic_add"
-            app:backgroundTint="#F1EFF4" />
+            <!-- Lista de recomendações -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:clipToPadding="false" />
+
+            <!-- ProgressBar sobreposto ao centro -->
+            <ProgressBar
+                android:id="@+id/progressFeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <!-- Botão Flutuante -->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabRecomendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="16dp"
+                android:contentDescription="Recomendar Filme"
+                android:src="@drawable/ic_add"
+                app:backgroundTint="#F1EFF4" />
+        </FrameLayout>
     </LinearLayout>
 
     <!-- Menu Lateral -->
@@ -59,7 +66,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#0B132B"
-        app:menu="@menu/menu_drawer"
+        app:menu="@menu/drawer_menu"
         app:itemTextColor="@android:color/white"
         app:headerLayout="@layout/nav_header" />
 </androidx.drawerlayout.widget.DrawerLayout>

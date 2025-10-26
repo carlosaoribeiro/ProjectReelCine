@@ -56,7 +56,7 @@
                 android:text="Descubra e compartilhe recomendações de filmes com seus amigos."
                 android:textAlignment="center"
                 android:textColor="#B0B0B0"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:layout_marginTop="12dp"
                 android:lineSpacingExtra="2dp"
                 app:layout_constraintTop_toBottomOf="@id/textTitulo"
@@ -72,13 +72,15 @@
                 android:text="Continuar com Google"
                 android:textColor="@android:color/white"
                 android:textAllCaps="false"
+                android:textSize="16sp"
+                android:letterSpacing="0.02"
                 android:fontFamily="@font/poppins_medium"
                 android:backgroundTint="#1A2238"
                 android:stateListAnimator="@null"
                 app:icon="@drawable/ic_google"
                 app:iconTint="@null"
-                app:iconSize="24dp"
-                app:iconPadding="8dp"
+                app:iconSize="38dp"
+                app:iconPadding="12dp"
                 app:iconGravity="textStart"
                 app:strokeColor="#333A50"
                 app:strokeWidth="1dp"
@@ -87,6 +89,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textSubtitulo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+
 
             <!-- Divisor -->
             <TextView
@@ -104,7 +107,7 @@
             <!-- Campo E-mail -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailLayout"
-                style="@style/ReelCineInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="Seu e-mail"
@@ -132,7 +135,7 @@
             <!-- Campo Senha -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/senhaLayout"
-                style="@style/ReelCineInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -170,10 +173,14 @@
                 android:fontFamily="@font/poppins_medium"
                 android:background="@drawable/btn_reelcine_gradient"
                 app:cornerRadius="24dp"
+                android:elevation="6dp"
+                android:translationZ="2dp"
+                app:rippleColor="#33FFFFFF"
                 app:layout_constraintTop_toBottomOf="@id/senhaLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="24dp" />
+
 
             <!-- Links -->
             <TextView

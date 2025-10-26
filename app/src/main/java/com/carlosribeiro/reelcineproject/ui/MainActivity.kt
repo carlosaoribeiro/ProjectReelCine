@@ -3,7 +3,6 @@ package com.carlosribeiro.reelcineproject.ui
 import com.carlosribeiro.reelcineproject.viewmodel.MainViewModel
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,7 +18,7 @@ import com.carlosribeiro.reelcineproject.ui.feed.FeedActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.carlosribeiro.reelcineproject.ui.main.FilmeHorizontalAdapter
-import com.carlosribeiro.reelcineproject.ui.recomendacao.RecomendarFilmeActivity
+import com.carlosribeiro.reelcineproject.ui.recomendacao.MovieRatingActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -64,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_recomendacoes -> {
-                    startActivity(Intent(this, RecomendarFilmeActivity::class.java))
+                    startActivity(Intent(this, MovieRatingActivity::class.java))
                     true
                 }
                 R.id.nav_perfil -> {

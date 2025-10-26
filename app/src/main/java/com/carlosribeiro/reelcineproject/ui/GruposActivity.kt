@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.carlosribeiro.reelcineproject.R
 import com.carlosribeiro.reelcineproject.databinding.ActivityGruposBinding
 import com.carlosribeiro.reelcineproject.ui.feed.FeedActivity
-import com.carlosribeiro.reelcineproject.ui.recomendacao.RecomendarFilmeActivity
+import com.carlosribeiro.reelcineproject.ui.recomendacao.MovieRatingActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -63,7 +63,7 @@ class GruposActivity : AppCompatActivity() {
                 R.id.nav_home -> startActivity(Intent(this, MainActivity::class.java))
                 R.id.nav_feed -> startActivity(Intent(this, FeedActivity::class.java))
                 R.id.nav_grupos -> { /* Já está aqui */ }
-                R.id.nav_recomendacoes -> startActivity(Intent(this, RecomendarFilmeActivity::class.java))
+                R.id.nav_recomendacoes -> startActivity(Intent(this, MovieRatingActivity::class.java))
                 R.id.nav_perfil -> startActivity(Intent(this, PerfilActivity::class.java))
                 R.id.nav_logout -> {
                     FirebaseAuth.getInstance().signOut()

@@ -31,7 +31,7 @@ class NeonTextView @JvmOverloads constructor(
         super.onSizeChanged(w, h, oldw, oldh)
         if (w > 0) {
             val startColor = ContextCompat.getColor(context, R.color.teal_200)
-            val midColor = ContextCompat.getColor(context, R.color.reelcine_gradient)
+            val midColor = ContextCompat.getColor(context, R.color.reelcine_accent_purple)
             val endColor = ContextCompat.getColor(context, R.color.teal_200)
 
             gradient = LinearGradient(

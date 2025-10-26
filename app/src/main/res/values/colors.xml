@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="reelcine_dark_blue_primary">#0B132B</color>
+    <color name="reelcine_dark_blue_variant">#3F51B5</color> <color name="reelcine_accent_purple">#7C4DFF</color>
 
-    <!-- Cores básicas -->
-    <color name="black">#FF000000</color>
+    <color name="reelcine_text_primary">#FFFFFFFF</color>
+    <color name="reelcine_text_secondary">#B3FFFFFF</color> <color name="reelcine_star_yellow">#FFC107</color>
+    <color name="reelcine_icon_gray">#808080</color>
+
     <color name="white">#FFFFFFFF</color>
-
-    <!-- Tema principal ReelCine -->
-    <color name="purple_700">#3F51B5</color>
-    <color name="purple_500">#0B132B</color>
-    <color name="colorPrimary">#0B132B</color>
-    <color name="colorAccent">#7C4DFF</color>
-
-    <!-- Gradiente usado no cabeçalho do menu -->
-    <color name="colorGradientStart">#7C4DFF</color>
-    <color name="colorGradientEnd">#4F6BED</color>
-
-    <!-- Cores do menu lateral -->
-    <color name="nav_item_default">#B3FFFFFF</color> <!-- branco 70% -->
-    <color name="nav_item_selected">#FFFFFFFF</color> <!-- branco total -->
-    <color name="nav_background">#0B132B</color>
-
-    <color name="reelcine_gradient">#7C4DFF</color>
+    <color name="black">#FF000000</color>
 
 </resources>

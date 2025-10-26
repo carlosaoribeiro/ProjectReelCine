@@ -3,7 +3,6 @@ package com.carlosribeiro.reelcineproject.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +15,7 @@ import kotlinx.coroutines.launch
 class FilmeDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetalhesFilmeBinding
+    private var filmeId: Int = -1 // Variável da classe para guardar o ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,22 +33,8 @@ class FilmeDetailsActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-
-
-
-        // Botão trailer
-        binding.btnTrailer.setOnClickListener {
-            val filmeId = intent.getIntExtra("id", -1)
-            if (filmeId != -1) {
-                buscarTrailer(filmeId)
-            } else {
-                Toast.makeText(this, "ID do filme é inválido", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-
-        // Dados do Intent
-        val id = intent.getIntExtra("id", -1)
+        // Dados do Intent (pegamos o ID aqui, uma única vez)
+        filmeId = intent.getIntExtra("id", -1)
         val titulo = intent.getStringExtra("titulo") ?: "Sem título"
         val descricao = intent.getStringExtra("descricao") ?: "Sem descrição"
         val posterPath = intent.getStringExtra("posterPath") ?: ""
@@ -67,6 +53,15 @@ class FilmeDetailsActivity : AppCompatActivity() {
         Glide.with(this)
             .load("https://image.tmdb.org/t/p/w780$backdropPath")
             .into(binding.imageCapa)
+
+        // Botão trailer (agora usa a variável da classe)
+        binding.btnTrailer.setOnClickListener {
+            if (filmeId != -1) {
+                buscarTrailer(filmeId)
+            } else {
+                Toast.makeText(this, "ID do filme é inválido", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

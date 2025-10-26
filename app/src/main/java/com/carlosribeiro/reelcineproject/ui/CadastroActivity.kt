@@ -7,10 +7,8 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
 import com.carlosribeiro.reelcineproject.databinding.ActivityCadastroBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -24,12 +22,35 @@ class CadastroActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
     private lateinit var storage: FirebaseStorage
-
     private var avatarBitmap: Bitmap? = null
 
-    companion object {
-        private const val REQUEST_IMAGE_CAPTURE = 1
-        private const val REQUEST_CAMERA_PERMISSION = 1001
+    // ## MUDANÇA 1: Lançador para o resultado da câmera ##
+    // Registramos um "lançador" que abre a câmera e nos devolve um Bitmap.
+    // Isso substitui 'startActivityForResult' e 'onActivityResult'.
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicturePreview()
+    ) { bitmap: Bitmap? ->
+        if (bitmap != null) {
+            avatarBitmap = bitmap
+            binding.imageAvatar.setImageBitmap(bitmap)
+        } else {
+            Toast.makeText(this, "Nenhuma imagem capturada.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // ## MUDANÇA 2: Lançador para o pedido de permissão ##
+    // Este lançador pede a permissão e executa uma ação baseada na resposta.
+    // Isso substitui 'ActivityCompat.requestPermissions' e 'onRequestPermissionsResult'.
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Permissão concedida, agora podemos abrir a câmera.
+            takePictureLauncher.launch(null)
+        } else {
+            // Permissão negada.
+            Toast.makeText(this, "Permissão da câmera negada!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,18 +62,10 @@ class CadastroActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
+        // ## MUDANÇA 3: Lógica do clique no avatar simplificada ##
         binding.imageAvatar.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.CAMERA),
-                    REQUEST_CAMERA_PERMISSION
-                )
-            } else {
-                abrirCamera()
-            }
+            // Pedimos a permissão da câmera usando o novo lançador.
+            requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
         }
 
         binding.btnCadastrar.setOnClickListener {
@@ -84,7 +97,7 @@ class CadastroActivity : AppCompatActivity() {
                         }
                     } else {
                         if (task.exception is FirebaseAuthUserCollisionException) {
-                            Toast.makeText(this, "Este e-mail já está em uso. Tente outro.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Este e-mail já está em uso.", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(this, "Erro: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                         }
@@ -93,42 +106,10 @@ class CadastroActivity : AppCompatActivity() {
         }
     }
 
-    private fun abrirCamera() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (takePictureIntent.resolveActivity(packageManager) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-        } else {
-            Toast.makeText(this, "Câmera não disponível", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                abrirCamera()
-            } else {
-                Toast.makeText(this, "Permissão da câmera negada!", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as? Bitmap
-            if (imageBitmap != null) {
-                avatarBitmap = imageBitmap
-                binding.imageAvatar.setImageBitmap(imageBitmap)
-            }
-        }
-    }
+    // ## MUDANÇA 4: Remoção de código obsoleto ##
+    // A função 'abrirCamera' não é mais necessária, pois o lançador faz o trabalho.
+    // Os métodos 'onActivityResult' e 'onRequestPermissionsResult' foram completamente removidos.
+    // O 'companion object' com os códigos de requisição também foi removido.
 
     private fun uploadAvatarToFirebase(userId: String, nome: String, email: String, bitmap: Bitmap) {
         val storageRef = storage.reference.child("avatars/$userId.jpg")

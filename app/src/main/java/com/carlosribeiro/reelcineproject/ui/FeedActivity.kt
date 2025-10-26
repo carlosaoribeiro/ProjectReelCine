@@ -1,14 +1,11 @@
 package com.carlosribeiro.reelcineproject.ui.feed
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.carlosribeiro.reelcineproject.R
 import com.carlosribeiro.reelcineproject.databinding.ActivityFeedBinding
 import com.carlosribeiro.reelcineproject.ui.*
-import com.carlosribeiro.reelcineproject.ui.recomendacao.RecomendarFilmeActivity
+import com.carlosribeiro.reelcineproject.ui.recomendacao.MovieRatingActivity
 import com.carlosribeiro.reelcineproject.viewmodel.FeedViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -81,7 +78,7 @@ class FeedActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_recomendacoes -> {
-                    startActivity(Intent(this, RecomendarFilmeActivity::class.java))
+                    startActivity(Intent(this, MovieRatingActivity::class.java))
                     true
                 }
                 R.id.nav_perfil -> {
@@ -107,7 +104,7 @@ class FeedActivity : AppCompatActivity() {
 
         // ➕ FAB
         binding.fabRecomendar.setOnClickListener {
-            startActivity(Intent(this, RecomendarFilmeActivity::class.java))
+            startActivity(Intent(this, MovieRatingActivity::class.java))
         }
 
         // 📡 ViewModel
@@ -116,7 +113,6 @@ class FeedActivity : AppCompatActivity() {
         viewModel.recomendacoes.observe(this) { lista ->
             Log.d("FeedActivity", "Lista recebida: ${lista.size}")
             binding.progressFeed.visibility = View.GONE
-            adapter.submitList(null)
             adapter.submitList(lista)
         }
 

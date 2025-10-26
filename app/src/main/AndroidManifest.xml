@@ -22,7 +22,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ReelCineProject"
+        android:theme="@style/Theme.ReelCine"
         tools:targetApi="31">
 
         <!-- Tela inicial (Splash) -->
@@ -37,7 +37,7 @@
 
         <!-- Outras activities -->
         <activity android:name="com.carlosribeiro.reelcineproject.ui.FilmeDetailsActivity" />
-        <activity android:name="com.carlosribeiro.reelcineproject.ui.recomendacao.RecomendarFilmeActivity" />
+        <activity android:name="com.carlosribeiro.reelcineproject.ui.recomendacao.MovieRatingActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.MainActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.CadastroActivity" />
         <activity android:name="com.carlosribeiro.reelcineproject.ui.GruposActivity" />

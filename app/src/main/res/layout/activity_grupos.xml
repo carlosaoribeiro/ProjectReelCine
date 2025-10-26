@@ -48,7 +48,7 @@
         android:layout_gravity="start"
         android:background="#0B132B"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/menu_drawer"
+        app:menu="@menu/drawer_menu"
         app:itemTextColor="@android:color/white"
         app:itemIconPadding="16dp"
         app:itemTextAppearance="@style/NavDrawerItemStyle" />

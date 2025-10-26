@@ -2,6 +2,7 @@ package com.carlosribeiro.reelcineproject.ui.feed
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,7 +14,8 @@ import com.carlosribeiro.reelcineproject.model.Recomendacao
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RecomendacaoAdapter : ListAdapter<Recomendacao, RecomendacaoAdapter.ViewHolder>(DIFF_CALLBACK) {
+class RecomendacaoAdapter :
+    ListAdapter<Recomendacao, RecomendacaoAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Recomendacao>() {
@@ -32,23 +34,26 @@ class RecomendacaoAdapter : ListAdapter<Recomendacao, RecomendacaoAdapter.ViewHo
 
         fun bind(recomendacao: Recomendacao) {
             try {
-                // Título, comentário e nome do autor
+                // Log para debug
+                Log.d("Adapter", "🧩 Recebido no Adapter: ${recomendacao.titulo} → rating=${recomendacao.rating}")
+
+                // 🎬 Título e informações básicas
                 binding.textTitulo.text = recomendacao.titulo
                 binding.textComentario.text = recomendacao.comentario
                 binding.textAutor.text = "Postado por: ${recomendacao.usuarioNome}"
 
-                // Formatar data
+                // 🗓️ Data formatada
                 val dataFormatada = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                val dataTexto = dataFormatada.format(Date(recomendacao.timestamp))
-                binding.textData.text = dataTexto
+                binding.textData.text = dataFormatada.format(Date(recomendacao.timestamp))
 
-                // Imagem do filme
+                // 🖼️ Poster do filme
                 Glide.with(binding.root.context)
-                    .load(recomendacao.posterPath)
-                    .placeholder(android.R.color.darker_gray)
+                    .load("https://image.tmdb.org/t/p/w500${recomendacao.posterPath}")
+                    .placeholder(R.drawable.image_placeholder)
+                    .error(R.drawable.image_placeholder)
                     .into(binding.imagePoster)
 
-                // ✅ Avatar com fallback se URL estiver vazia ou inválida
+                // 👤 Avatar com fallback
                 Glide.with(binding.root.context)
                     .load(
                         if (recomendacao.avatarUrl.isNullOrBlank())
@@ -61,6 +66,18 @@ class RecomendacaoAdapter : ListAdapter<Recomendacao, RecomendacaoAdapter.ViewHo
                     .circleCrop()
                     .into(binding.imageAvatar)
 
+                // ⭐ Exibir nota individual (rating)
+                val rating = recomendacao.rating
+                if (rating > 0f) {
+                    binding.ratingRow.visibility = View.VISIBLE
+                    binding.ratingBar.rating = rating
+                    binding.ratingCount.text = "⭐ %.1f".format(rating)
+                } else {
+                    binding.ratingRow.visibility = View.GONE
+                    binding.ratingBar.rating = 0f
+                    binding.ratingCount.text = ""
+                }
+
             } catch (e: Exception) {
                 Log.e("AdapterErro", "Erro ao bindar item: ${e.message}", e)
             }
@@ -68,7 +85,8 @@ class RecomendacaoAdapter : ListAdapter<Recomendacao, RecomendacaoAdapter.ViewHo
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemRecomendacaoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemRecomendacaoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

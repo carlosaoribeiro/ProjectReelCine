@@ -1,5 +1,6 @@
 package com.carlosribeiro.reelcineproject.viewmodel
 
+import android.R.attr.rating
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.carlosribeiro.reelcineproject.model.Recomendacao
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 
 class FeedViewModel : ViewModel() {
@@ -15,31 +17,49 @@ class FeedViewModel : ViewModel() {
     val recomendacoes: LiveData<List<Recomendacao>> = _recomendacoes
 
     private val db = FirebaseFirestore.getInstance()
+    private var listener: ListenerRegistration? = null
 
     fun observarRecomendacoesEmTempoReal() {
-        db.collectionGroup("recomendacoes")
+        listener?.remove() // ✅ evita múltiplos listeners
+
+        listener = db.collection("ratings")
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshots, error ->
                 if (error != null) {
-                    Log.e("FeedViewModel", "❌ Erro ao escutar recomendações: \${error.message}", error)
+                    Log.e("FeedViewModel", "❌ Erro ao escutar ratings: ${error.message}", error)
                     return@addSnapshotListener
                 }
 
-                val lista = snapshots?.documents?.mapNotNull { doc ->
+                if (snapshots == null) {
+                    Log.w("FeedViewModel", "⚠️ Nenhum snapshot retornado")
+                    return@addSnapshotListener
+                }
+
+                val lista = snapshots.documents.mapNotNull { doc ->
                     val data = doc.data ?: return@mapNotNull null
 
-                    val titulo = data["titulo"] as? String ?: ""
+                    val titulo = data["movieTitle"] as? String ?: ""  // ✅ Corrigido
                     val comentario = data["comentario"] as? String ?: ""
                     val posterPath = data["posterPath"] as? String ?: ""
                     val avatarUrl = data["avatarUrl"] as? String ?: ""
-                    val autor = data["autor"] as? String ?: ""
-                    val usuarioNome = data["usuarioNome"] as? String ?: ""
+                    val autor = data["userId"] as? String ?: ""
+                    val usuarioNome = data["usuarioNome"] as? String ?: autor
 
+                    // 🕒 Timestamp
                     val timestamp = when (val ts = data["timestamp"]) {
-                        is Timestamp -> ts.toDate().time
+                        is com.google.firebase.Timestamp -> ts.toDate().time
                         is Long -> ts
                         else -> 0L
                     }
+
+                    // ⭐ Campo de nota individual (rating)
+                    val rating = when (val rt = data["rating"]) {
+                        is Number -> rt.toFloat()
+                        is String -> rt.toFloatOrNull() ?: 0f
+                        else -> 0f
+                    }
+
+                    Log.d("FeedViewModel", "🎯 Rating lido: $rating para $titulo")
 
                     Recomendacao(
                         titulo = titulo,
@@ -48,12 +68,21 @@ class FeedViewModel : ViewModel() {
                         avatarUrl = avatarUrl,
                         autor = autor,
                         usuarioNome = usuarioNome,
-                        timestamp = timestamp
+                        timestamp = timestamp,
+                        averageRating = 0f,
+                        ratingsCount = 0,
+                        rating = rating
                     )
                 }
 
-                _recomendacoes.value = lista!!
-                Log.d("FeedViewModel", "📡 Recomendações em tempo real atualizadas: \${lista?.size}")
+                Log.d("FeedViewModel", "📦 Lista final com ${lista.size} recomendações")
+                _recomendacoes.value = lista
             }
+    }
+
+
+    override fun onCleared() {
+        super.onCleared()
+        listener?.remove()
     }
 }

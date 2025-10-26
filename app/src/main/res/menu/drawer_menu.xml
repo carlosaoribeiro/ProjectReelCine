@@ -11,15 +11,15 @@
         <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/ic_outline_forum_24"
-            android:title="Feed de Recomendações" />
+            android:title="Feed de Avaliações" />
         <item
             android:id="@+id/nav_grupos"
             android:icon="@drawable/ic_outline_groups_24"
             android:title="Grupos" />
         <item
             android:id="@+id/nav_recomendacoes"
-            android:icon="@drawable/ic_outline_add_box_24"
-            android:title="Crie Recomendação" />
+            android:icon="@drawable/ic_outline_star_outline_24"
+            android:title="Avaliar Filme" />
         <item
             android:id="@+id/nav_perfil"
             android:icon="@drawable/ic_outline_person_24"

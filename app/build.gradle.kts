@@ -4,7 +4,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
-    id("com.google.gms.google-services") // ✅ plugin obrigatório para Firebase
+    id("com.google.gms.google-services")
 }
 
 val tmdbApiKey = project.findProperty("TMDB_API_KEY")?.toString() ?: ""
@@ -60,22 +60,30 @@ dependencies {
     // --- AndroidX Core ---
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.material) // Fornece MaterialCardView, substituindo o antigo CardView
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.cardview)
+    // implementation(libs.androidx.cardview) // Removido, pois o 'material' já oferece o MaterialCardView
     implementation(libs.androidx.drawerlayout)
+
+    // ADICIONE a nova dependência para o Google Identity Services
+    implementation(libs.googleid)
+
 
     // --- Firebase ---
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.storage.ktx)
-    implementation(libs.firebase.appcheck.debug)
-    implementation(libs.firebase.appcheck.playintegrity)
-    implementation(libs.play.services.auth) // Dependência do Google Sign-In
+
+    // App Check: Dependências separadas para Debug e Release
+    debugImplementation(libs.firebase.appcheck.debug) // Usado apenas ao rodar em modo Debug
+    releaseImplementation(libs.firebase.appcheck.playintegrity) // Usado apenas na versão de Release
+
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     // --- Rede / API ---
     implementation(libs.retrofit)
@@ -83,7 +91,7 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     // --- Imagens ---
-    implementation(libs.coil)
+    // implementation(libs.coil) // Removido para padronizar o uso de apenas uma biblioteca de imagem (Glide)
     implementation(libs.glide)
     kapt(libs.glide.compiler)
     implementation(libs.circleimageview)
@@ -95,5 +103,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
 }
