@@ -1,5 +1,7 @@
 package com.carlosribeiro.reelcineproject.ui
 
+
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,20 +11,21 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.carlosribeiro.reelcineproject.api.RetrofitClient
 import com.carlosribeiro.reelcineproject.databinding.ActivityDetalhesFilmeBinding
+import com.carlosribeiro.reelcineproject.model.Recomendacao
 import com.carlosribeiro.reelcineproject.ui.recomendacao.mapper.toUiModel
 import kotlinx.coroutines.launch
 
 class FilmeDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetalhesFilmeBinding
-    private var filmeId: Int = -1 // Variável da classe para guardar o ID
+    private var filmeId: Int = -1 // Guarda o ID do filme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetalhesFilmeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Toolbar
+        // Configuração da Toolbar
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -33,7 +36,7 @@ class FilmeDetailsActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // Dados do Intent (pegamos o ID aqui, uma única vez)
+        // Dados do Intent
         filmeId = intent.getIntExtra("id", -1)
         val titulo = intent.getStringExtra("titulo") ?: "Sem título"
         val descricao = intent.getStringExtra("descricao") ?: "Sem descrição"
@@ -54,13 +57,25 @@ class FilmeDetailsActivity : AppCompatActivity() {
             .load("https://image.tmdb.org/t/p/w780$backdropPath")
             .into(binding.imageCapa)
 
-        // Botão trailer (agora usa a variável da classe)
+        // Botão Trailer
         binding.btnTrailer.setOnClickListener {
             if (filmeId != -1) {
                 buscarTrailer(filmeId)
             } else {
                 Toast.makeText(this, "ID do filme é inválido", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        // ✅ Botão Avaliar (abre tela de pesquisa)
+        binding.btnAvaliar.setOnClickListener {
+            val intent = Intent(
+                this,
+                com.carlosribeiro.reelcineproject.ui.recomendacao.AdicionarFilmeActivity::class.java
+            )
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            intent.putExtra("titulo_predefinido", binding.textTituloFilme.text.toString())
+            intent.putExtra("executar_busca", true) // 👈 adiciona sinal para rodar a busca automaticamente
+            startActivity(intent)
         }
     }
 
@@ -82,12 +97,24 @@ class FilmeDetailsActivity : AppCompatActivity() {
                     trailer?.let {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.urlYoutube))
                         startActivity(intent)
-                    } ?: Toast.makeText(this@FilmeDetailsActivity, "Trailer não encontrado", Toast.LENGTH_SHORT).show()
+                    } ?: Toast.makeText(
+                        this@FilmeDetailsActivity,
+                        "Trailer não encontrado",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-                    Toast.makeText(this@FilmeDetailsActivity, "Erro ${response.code()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@FilmeDetailsActivity,
+                        "Erro ${response.code()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(this@FilmeDetailsActivity, "Falha ao carregar trailer", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@FilmeDetailsActivity,
+                    "Falha ao carregar trailer",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

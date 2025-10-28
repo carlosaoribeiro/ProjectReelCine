@@ -1,11 +1,8 @@
 package com.carlosribeiro.reelcineproject.ui
 
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -24,9 +21,7 @@ class CadastroActivity : AppCompatActivity() {
     private lateinit var storage: FirebaseStorage
     private var avatarBitmap: Bitmap? = null
 
-    // ## MUDANÇA 1: Lançador para o resultado da câmera ##
-    // Registramos um "lançador" que abre a câmera e nos devolve um Bitmap.
-    // Isso substitui 'startActivityForResult' e 'onActivityResult'.
+    // Launcher para tirar foto com a câmera
     private val takePictureLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicturePreview()
     ) { bitmap: Bitmap? ->
@@ -38,17 +33,13 @@ class CadastroActivity : AppCompatActivity() {
         }
     }
 
-    // ## MUDANÇA 2: Lançador para o pedido de permissão ##
-    // Este lançador pede a permissão e executa uma ação baseada na resposta.
-    // Isso substitui 'ActivityCompat.requestPermissions' e 'onRequestPermissionsResult'.
+    // Launcher para pedir permissão da câmera
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            // Permissão concedida, agora podemos abrir a câmera.
             takePictureLauncher.launch(null)
         } else {
-            // Permissão negada.
             Toast.makeText(this, "Permissão da câmera negada!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -62,15 +53,15 @@ class CadastroActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
-        // ## MUDANÇA 3: Lógica do clique no avatar simplificada ##
+        // Clique para tirar foto
         binding.imageAvatar.setOnClickListener {
-            // Pedimos a permissão da câmera usando o novo lançador.
             requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
         }
 
+        // Clique para cadastrar
         binding.btnCadastrar.setOnClickListener {
             val nome = binding.editTextNome.text.toString().trim()
-            val email = binding.editTextEmail.text.toString().trim()
+            val email = binding.editTextEmail.text.toString().trim().lowercase()
             val senha = binding.editTextSenha.text.toString().trim()
             val confirmar = binding.editConfirmarSenha.text.toString().trim()
 
@@ -92,7 +83,7 @@ class CadastroActivity : AppCompatActivity() {
                             if (avatarBitmap != null) {
                                 uploadAvatarToFirebase(uid, nome, email, avatarBitmap!!)
                             } else {
-                                saveUserToFirestore(uid, nome, email, null)
+                                saveUserToFirestore(uid, nome, email, null, senha)
                             }
                         }
                     } else {
@@ -106,11 +97,6 @@ class CadastroActivity : AppCompatActivity() {
         }
     }
 
-    // ## MUDANÇA 4: Remoção de código obsoleto ##
-    // A função 'abrirCamera' não é mais necessária, pois o lançador faz o trabalho.
-    // Os métodos 'onActivityResult' e 'onRequestPermissionsResult' foram completamente removidos.
-    // O 'companion object' com os códigos de requisição também foi removido.
-
     private fun uploadAvatarToFirebase(userId: String, nome: String, email: String, bitmap: Bitmap) {
         val storageRef = storage.reference.child("avatars/$userId.jpg")
         val baos = ByteArrayOutputStream()
@@ -119,35 +105,48 @@ class CadastroActivity : AppCompatActivity() {
 
         storageRef.putBytes(imageData)
             .continueWithTask { task ->
-                if (!task.isSuccessful) {
-                    throw task.exception ?: Exception("Erro no upload")
-                }
+                if (!task.isSuccessful) throw task.exception ?: Exception("Erro no upload")
                 storageRef.downloadUrl
             }
             .addOnSuccessListener { uri ->
                 val avatarUrl = uri.toString()
-                saveUserToFirestore(userId, nome, email, avatarUrl)
+                saveUserToFirestore(userId, nome, email, avatarUrl, binding.editTextSenha.text.toString())
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Erro ao enviar imagem: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun saveUserToFirestore(userId: String, nome: String, email: String, avatarUrl: String?) {
+    // 🔥 Versão ajustada com login automático
+    private fun saveUserToFirestore(
+        userId: String,
+        nome: String,
+        email: String,
+        avatarUrl: String?,
+        senha: String
+    ) {
         val userMap = hashMapOf(
             "nome" to nome,
-            "email" to email
+            "email" to email.lowercase(), // 🔥 sempre minúsculo
+            "avatarUrl" to (avatarUrl ?: "")
         )
-        if (avatarUrl != null) {
-            userMap["avatarUrl"] = avatarUrl
-        }
 
         firestore.collection("usuarios").document(userId)
             .set(userMap)
             .addOnSuccessListener {
                 Toast.makeText(this, "Conta criada com sucesso!", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
+
+                // 🔥 Só faz login DEPOIS que os dados forem realmente salvos
+                auth.signInWithEmailAndPassword(email, senha)
+                    .addOnSuccessListener {
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Erro ao logar: ${e.message}", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
+                    }
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Erro ao salvar usuário: ${e.message}", Toast.LENGTH_LONG).show()

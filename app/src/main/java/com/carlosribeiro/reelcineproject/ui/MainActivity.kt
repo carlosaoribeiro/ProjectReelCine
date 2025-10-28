@@ -3,6 +3,7 @@ package com.carlosribeiro.reelcineproject.ui
 import com.carlosribeiro.reelcineproject.viewmodel.MainViewModel
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.carlosribeiro.reelcineproject.ui.main.FilmeHorizontalAdapter
 import com.carlosribeiro.reelcineproject.ui.recomendacao.MovieRatingActivity
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -115,34 +117,50 @@ class MainActivity : AppCompatActivity() {
         val headerView = binding.navigationView.getHeaderView(0)
         val imageUserAvatar = headerView.findViewById<ImageView>(R.id.imageUserAvatar)
         val textUserName = headerView.findViewById<TextView>(R.id.textUserName)
+        val textUserEmail = headerView.findViewById<TextView>(R.id.textUserEmail)
 
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val user = FirebaseAuth.getInstance().currentUser
+        val uid = user?.uid
+
         if (uid != null) {
             FirebaseFirestore.getInstance().collection("usuarios").document(uid)
                 .get()
                 .addOnSuccessListener { doc ->
-                    val nome = doc.getString("nome") ?: "Usuário"
-                    val avatarUrl = doc.getString("avatarUrl")
+                    val nome = doc.getString("nome") ?: user.displayName ?: "Usuário"
+                    val emailFirestore = doc.getString("email")
+                    val emailAuth = user.email
+                    val avatarUrl = doc.getString("avatarUrl") ?: user.photoUrl?.toString()
 
+                    val emailFinal = if (!emailFirestore.isNullOrBlank()) emailFirestore else emailAuth
                     textUserName.text = nome
-                    if (!avatarUrl.isNullOrEmpty()) {
+                    textUserEmail.text = emailFinal ?: "E-mail não disponível"
+
+                    if (!avatarUrl.isNullOrBlank()) {
                         Glide.with(this)
                             .load(avatarUrl)
                             .circleCrop()
                             .into(imageUserAvatar)
                     }
+
+                    // Debug temporário:
+                    Log.d("HeaderDebug", "Firestore=$emailFirestore | Auth=$emailAuth | Final=$emailFinal")
                 }
+                .addOnFailureListener { e ->
+                    Log.e("HeaderDebug", "Erro ao buscar Firestore", e)
+                    textUserName.text = user.displayName ?: "Usuário"
+                    textUserEmail.text = user.email ?: "E-mail não disponível"
+                }
+        } else {
+            textUserName.text = "Usuário não autenticado"
+            textUserEmail.text = ""
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        atualizarHeaderUsuario()
-    }
+
 
     private fun abrirDetalhesFilme(filme: FilmeUi) {
         startActivity(Intent(this, FilmeDetailsActivity::class.java).apply {
-            putExtra("id", filme.id)
+        putExtra("id", filme.id)
             putExtra("titulo", filme.titulo)
             putExtra("descricao", filme.descricao)
             putExtra("posterPath", filme.posterPath)

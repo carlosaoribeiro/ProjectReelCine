@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.implementation
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -17,12 +15,11 @@ android {
         applicationId = "com.carlosribeiro.reelcineproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 7
+        versionName = "1.0.7"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
         buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
-
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -34,10 +31,19 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // ⚠️ Se já tiver o keystore, descomente e configure aqui:
+            // signingConfig = signingConfigs.getByName("release")
+        }
+
+        debug {
+            isMinifyEnabled = false
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
         }
     }
 
@@ -60,30 +66,27 @@ dependencies {
     // --- AndroidX Core ---
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material) // Fornece MaterialCardView, substituindo o antigo CardView
+    implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
-    // implementation(libs.androidx.cardview) // Removido, pois o 'material' já oferece o MaterialCardView
     implementation(libs.androidx.drawerlayout)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.credentials)
 
-    // ADICIONE a nova dependência para o Google Identity Services
+    // --- Google Identity Services ---
     implementation(libs.googleid)
 
-
-    // --- Firebase ---
+    // --- Firebase (via BOM) ---
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.storage.ktx)
 
-    // App Check: Dependências separadas para Debug e Release
-    debugImplementation(libs.firebase.appcheck.debug) // Usado apenas ao rodar em modo Debug
-    releaseImplementation(libs.firebase.appcheck.playintegrity) // Usado apenas na versão de Release
-
-    implementation(libs.androidx.credentials)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    // --- App Check (modo seguro para Release e Debug) ---
+    debugImplementation("com.google.firebase:firebase-appcheck-debug:17.1.1")
+    releaseImplementation("com.google.firebase:firebase-appcheck-playintegrity:17.1.1")
 
     // --- Rede / API ---
     implementation(libs.retrofit)
@@ -91,7 +94,6 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     // --- Imagens ---
-    // implementation(libs.coil) // Removido para padronizar o uso de apenas uma biblioteca de imagem (Glide)
     implementation(libs.glide)
     kapt(libs.glide.compiler)
     implementation(libs.circleimageview)

@@ -3,7 +3,8 @@ package com.carlosribeiro.reelcineproject.viewmodel
 import androidx.lifecycle.*
 import com.carlosribeiro.reelcineproject.api.RetrofitInstance
 import com.carlosribeiro.reelcineproject.model.FilmeUi
-import com.carlosribeiro.reelcineproject.model.toUiModel
+import com.carlosribeiro.reelcineproject.model.mapper.toUiModel
+
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {

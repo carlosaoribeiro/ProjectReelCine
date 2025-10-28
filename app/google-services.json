@@ -14,10 +14,55 @@
       },
       "oauth_client": [
         {
+          "client_id": "397058037942-4s6qroegi28bjvfll27mu1uokqikl9i8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.carlosribeiro.reelcineproject",
+            "certificate_hash": "fd5f2236ccea1c3ea3552d92151480c6dc6c8e47"
+          }
+        },
+        {
           "client_id": "397058037942-caqk8bp8k37ggv95iqmtq6otmjt2nkns.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.carlosribeiro.reelcineproject",
+            "certificate_hash": "c1af8904a3cfce2c4768fffb097eceb33ba4eb5a"
+          }
+        },
+        {
+          "client_id": "397058037942-239im1r6tc8go527ku3s5kv2chm794qi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASVtdNL15rSQcfYmYTvCUPn8g038GG-Ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397058037942-239im1r6tc8go527ku3s5kv2chm794qi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397058037942:android:b7eb4af221f9f0a980ee17",
+        "android_client_info": {
+          "package_name": "com.carlosribeiro.reelcineproject.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397058037942-90habt7emd8q9f61vhp7bct8osunkaje.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.carlosribeiro.reelcineproject.debug",
             "certificate_hash": "c1af8904a3cfce2c4768fffb097eceb33ba4eb5a"
           }
         },

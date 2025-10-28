@@ -18,7 +18,7 @@ import com.carlosribeiro.reelcineproject.R
 import com.carlosribeiro.reelcineproject.databinding.ActivityMovieRatingBinding
 import com.carlosribeiro.reelcineproject.model.FilmeUi
 import com.carlosribeiro.reelcineproject.ui.*
-import com.carlosribeiro.reelcineproject.ui.adapter.FilmeBuscaAdapter
+import com.carlosribeiro.reelcineproject.ui.adapter.FilmeAdapter
 import com.carlosribeiro.reelcineproject.ui.feed.FeedActivity
 import com.carlosribeiro.reelcineproject.viewmodel.BuscarFilmeViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -31,7 +31,7 @@ class MovieRatingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMovieRatingBinding
     private lateinit var viewModel: BuscarFilmeViewModel
     private lateinit var drawerToggle: ActionBarDrawerToggle
-    private lateinit var adapter: FilmeBuscaAdapter
+    private lateinit var adapter: FilmeAdapter
     private var filmeSelecionado: FilmeUi? = null
     private lateinit var firestore: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -104,7 +104,7 @@ class MovieRatingActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = FilmeBuscaAdapter(filmes = emptyList()) { filme ->
+        adapter = FilmeAdapter(filmes = emptyList()) { filme ->
             filmeSelecionado = filme
             esconderTeclado()
             showRatingState()
